@@ -9,4 +9,4 @@ ALPHA
 
 Prerendered front page (examples/demo/public)
 ----------
-https://jerryi.github.io/tinyweb-mathematica/
+https://jerryi.github.io/tinyweb-mathematica/prerender

@@ -7,3 +7,6 @@ ALPHA
 * GET, POST queries
 * See docs here /examples/demo/test.nb
 
+Prerendered front page (examples/demo/public)
+----------
+https://jerryi.github.io/tinyweb-mathematica/

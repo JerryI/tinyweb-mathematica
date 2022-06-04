@@ -1,0 +1,14 @@
+<h1 class="heading">
+
+    TinyWEB & WSP
+</h1>
+<p>Welcome to the documentation!</p>
+
+<!--<h2 class="heading">
+    Related documentation
+</h2>
+<ul>
+    <li><a href="https://github.com/share/sharedb">ShareDB</a></li>
+</ul>-->
+
+<a class="btn btn-outline btn-lg next" href="/docs/index.wsp?page=start.wsp">Next&nbsp; ➔</a><!--<a class="edit-on-github" href="https://github.com/derbyjs/derby-site/edit/master/md/docs/derby-0.10/overview.md">Edit on GitHub</a>-->

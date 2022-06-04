@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display Image</title>
+  </head>
+  <body>
+
+
+  </body>
+
+  <script>
+    let socket = new WebSocket("ws://"+window.location.hostname);
+
+    socket.onopen = function(e) {
+      console.log("[open] Соединение установлено");
+      socket.send(`CreateWindow[DialogNotebook[client]]`);
+    }; 
+
+    socket.onerror = function(e) {
+      alert(e);
+    };
+
+    socket.onmessage = function(event) {
+      let data = JSON.parse(event.data);
+      alert(event.data);
+    };
+
+    
+  </script>
+</html>

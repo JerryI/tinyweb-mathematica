@@ -1,0 +1,22 @@
+<h1 class="heading">
+    Components
+</h1>
+<p>Importing a page can be done by</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> LoadPage["header.wsp", {title = "Hi"}] <span class="cm-tag">?&gt;</span> 
+    </code>
+</div>
+<p>The second argument is optional and passes them to Block function, i.e. you can create modules/components. Inside header.wsp we can write </p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">
+            &lt;head&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;  &lt;?wsp</span> title <span class="cm-tag">?&gt; &lt;/title&gt;<br />
+        &lt;/head&gt;            
+    </code>
+</div>
+
+<a class="btn btn-outline btn-lg next" href="/docs/index.wsp?page=session.wsp">Next&nbsp; ➔</a>
+

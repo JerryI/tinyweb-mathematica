@@ -1,0 +1,46 @@
+<h1 class="heading">
+    Get started
+</h1>
+<p>Import the latest paclet from GitHub</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+    PacletInstall["https://github.com/JerryI/tinyweb-mathematica/blob/main/Tinyweb.paclet?raw=true"]
+    &lt;&lt;Tinyweb`
+    </code>
+</div>
+<p>Create the initial structure of the project</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        -- &nbsp; your_project.nb<br>
+        -- &nbsp; public/<br>
+        -- &nbsp; -- &nbsp; index.wsp
+    </code>
+</div>
+
+<p>To create the simplest server - use function</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        server = WEBServer[&quot;addr&quot; -&gt; &quot;127.0.0.1:80&quot;, <br />
+        &quot;path&quot; -&gt; NotebookDirectory[] &lt;&gt; &quot;public&quot;, &quot;socket-close&quot; -&gt; True] <br />
+        <br />
+        server // WEBServerStart
+    </code>
+</div>
+
+<p>Note: the parameter "socket-close" stands for the behavior when the response was sent. True means it will be closed, False - it will be collected to the garbage and after a few iterations will be closed. It can prevent connection issues on some Windows machines, because of a bug in TCP library. The connection closes before the whole data has sent.</p>
+
+<p>Stop the server</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        server // WEBServerStop
+    </code>
+</div>
+
+<!--<h2 class="heading">
+    Related documentation
+</h2>
+<ul>
+    <li><a href="https://github.com/share/sharedb">ShareDB</a></li>
+</ul>-->
+
+<a class="btn btn-outline btn-lg next" href="/docs/index.wsp?page=forms.wsp">Next&nbsp; ➔</a>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display Image</title>
+  </head>
+  <body>
+    <?wsp ExportString[session, "SVG"] ?>
+      
+      <br><br>
+    <form action="formfiles.wsp" method="post" enctype='multipart/form-data'>
+        <div>
+          <label for="say">What greeting do you want to say?</label>
+          <input name="say" id="say" value="Hi">
+        </div>
+        <div>
+          <label for="to">Who do you want to say it to?</label>
+          <input name="to" id="to" value="Mom">
+        </div>
+        <input type="file" name="files" multiple>
+        <div>
+          <button>Send my greetings</button>
+        </div>
+      </form>
+      
+  </body>
+</html>

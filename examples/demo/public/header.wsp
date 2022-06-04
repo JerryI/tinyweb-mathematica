@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>WSP Demo</title>
+        <base href="http://<?wsphost?>/">
+        <link type="text/css" rel="stylesheet" href="styles.css" />
+        <script type="text/javascript" src="websockets.js"></script>
+        <script>
+            WSPSetHost("<?wsphost?>");
+        </script> 
+    </head>

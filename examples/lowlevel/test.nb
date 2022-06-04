@@ -1,0 +1,186 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7529,        178]
+NotebookOptionsPosition[      5345,        142]
+NotebookOutlinePosition[      5794,        159]
+CellTagsIndexPosition[      5751,        156]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Low-level example. Mostly for the developers", "Subsection",ExpressionUUID->"aa88f207-b36a-425a-8e41-9ff7c24af98c"],
+
+Cell["Direct import", "Text",ExpressionUUID->"f4505574-8115-48fc-8031-7c112f040e7f"],
+
+Cell[BoxData[{
+ RowBox[{"Import", "[", 
+  RowBox[{
+   RowBox[{"ParentDirectory", "[", 
+    RowBox[{"ParentDirectory", "[", 
+     RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "]"}], "<>", 
+   "\"\<\\\\Tinyweb\\\\Tinyweb.wl\>\""}], "]"}], "\n", 
+ RowBox[{"Import", "[", 
+  RowBox[{
+   RowBox[{"ParentDirectory", "[", 
+    RowBox[{"ParentDirectory", "[", 
+     RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "]"}], "<>", 
+   "\"\<\\\\WSP\\\\WSP.wl\>\""}], "]"}]}], "Input",ExpressionUUID->"9cedb524-\
+0bb3-417a-95a6-aa2fd7301d48"],
+
+Cell["Via paclet", "Text",ExpressionUUID->"f1749e51-4484-4a93-932a-df8286a66fc2"],
+
+Cell[BoxData[
+ RowBox[{"PacletInstall", "[", "]"}]], "Input",ExpressionUUID->"19c6cc8e-a63c-4e4a-922c-3a7754cad030"],
+
+Cell[TextData[StyleBox["Start the webserver", "Subsubsection"]], "Text",ExpressionUUID->"433bc48f-9180-4aa3-92a9-75001635bcef"],
+
+Cell[BoxData[{
+ RowBox[{"server", " ", "=", " ", 
+  RowBox[{"WEBServer", "[", 
+   RowBox[{
+    RowBox[{"\"\<addr\>\"", "->", "\"\<127.0.0.1:80\>\""}], ",", " ", 
+    RowBox[{"\"\<path\>\"", "->", 
+     RowBox[{
+      RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<public\>\""}]}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"server", "//", "WEBServerStart"}], "\[IndentingNewLine]", 
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{"StringTemplate", "[", 
+   RowBox[{"\"\<http://``/\>\"", ",", " ", 
+    RowBox[{"server", "[", "\"\<addr\>\"", "]"}]}], "]"}], "]"}]}], "Input",Ex\
+pressionUUID->"8cf51ad3-9426-4f23-b1d4-bdcd1c51931d"],
+
+Cell["\<\
+If you have an issues with the TCP sockets (on some windows machines socket \
+closes often before the data was sent fully) use an option to keep the \
+connection alive\
+\>", "Text",ExpressionUUID->"badcb725-03cc-437f-b940-dc287cebb332"],
+
+Cell[BoxData[{
+ RowBox[{"server", " ", "=", " ", 
+  RowBox[{"WEBServer", "[", 
+   RowBox[{
+    RowBox[{"\"\<addr\>\"", "->", "\"\<127.0.0.1:80\>\""}], ",", " ", 
+    RowBox[{"\"\<path\>\"", "->", 
+     RowBox[{
+      RowBox[{"NotebookDirectory", "[", "]"}], "<>", "\"\<public\>\""}]}], 
+    ",", " ", 
+    RowBox[{"\"\<socket-close\>\"", "->", "False"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"server", "//", "WEBServerStart"}], "\[IndentingNewLine]", 
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{
+   RowBox[{"StringTemplate", "[", "\"\<http://``/\>\"", "]"}], "[", " ", 
+   RowBox[{"server", "[", "\"\<addr\>\"", "]"}], "]"}], "]"}]}], "Input",Expre\
+ssionUUID->"e74091dd-539c-4b6d-bbcd-eeaeba297e53"],
+
+Cell["Open html form test, which uses GET method", "Text",ExpressionUUID->"18941eb6-c612-420c-a3d8-232ad076f387"],
+
+Cell[BoxData[
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{
+   RowBox[{"StringTemplate", "[", "\"\<http://``/form.wsp\>\"", "]"}], "[", 
+   RowBox[{"server", "[", "\"\<addr\>\"", "]"}], "]"}], "]"}]], "Input",Expres\
+sionUUID->"ad4fb1a2-1f20-4eea-bdbd-b6d29aca6ffa"],
+
+Cell["Open html form test, which uses POST method", "Text",ExpressionUUID->"56b014c8-22ea-42dd-b3d5-421071de04f5"],
+
+Cell[BoxData[
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{
+   RowBox[{"StringTemplate", "[", "\"\<http://``/formpost.wsp\>\"", "]"}], 
+   "[", 
+   RowBox[{"server", "[", "\"\<addr\>\"", "]"}], "]"}], "]"}]], "Input",
+ CellLabel->"In[25]:=",ExpressionUUID->"7426ea5c-348b-444f-9095-4f10dc9a887c"],
+
+Cell["\<\
+Open html form test, which uses POST multipart (files) method\
+\>", "Text",ExpressionUUID->"548007f0-449b-4dab-9f9d-4f75b91158fc"],
+
+Cell[BoxData[
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{
+   RowBox[{"StringTemplate", "[", "\"\<http://``/formfiles.wsp\>\"", "]"}], 
+   "[", 
+   RowBox[{"server", "[", "\"\<addr\>\"", "]"}], "]"}], "]"}]], "Input",Expres\
+sionUUID->"89ed6d70-0181-4555-81df-42da73b014bd"],
+
+Cell[TextData[StyleBox["Stop", "Subsubsection"]], "Text",ExpressionUUID->"875f92b0-7a67-48d9-8909-dbe76e396c40"],
+
+Cell[BoxData[
+ RowBox[{"server", "//", "WEBServerStop"}]], "Input",
+ CellLabel->"In[16]:=",ExpressionUUID->"06d867ba-ceed-4d13-a2d9-02cf4efc6876"],
+
+Cell[TextData[StyleBox["Broadcast for websocket.wsp test", "Subsubsection"]], \
+"Text",ExpressionUUID->"5a6e399a-4bf3-4730-93ed-264066937edc"],
+
+Cell[BoxData[
+ RowBox[{"SystemOpen", "[", 
+  RowBox[{
+   RowBox[{"StringTemplate", "[", "\"\<http://``/websoket.wsp\>\"", "]"}], 
+   "[", 
+   RowBox[{"server", "[", "\"\<addr\>\"", "]"}], "]"}], "]"}]], "Input",Expres\
+sionUUID->"39702d38-db44-48ae-9b6e-3e686ba29ba6"],
+
+Cell[BoxData[
+ RowBox[{"WebSocketBroadcast", "[", 
+  RowBox[{"server", ",", " ", "\"\<Hi\>\""}], "]"}]], "Input",
+ CellLabel->"In[5]:=",ExpressionUUID->"e604fa91-91c1-4cbd-b4a5-5030d8b2bfdd"]
+}, Open  ]]
+},
+WindowSize->{704.25, 450.75},
+WindowMargins->{{Automatic, -1002}, {-261.75, Automatic}},
+TrackCellChangeTimes->False,
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"ReverseColor.nb",
+ExpressionUUID->"e97e9f91-0d74-417e-9f87-ee9021ce2116"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 121, 0, 54, "Subsection",ExpressionUUID->"aa88f207-b36a-425a-8e41-9ff7c24af98c"],
+Cell[704, 24, 84, 0, 38, "Text",ExpressionUUID->"f4505574-8115-48fc-8031-7c112f040e7f"],
+Cell[791, 26, 531, 13, 97, "Input",ExpressionUUID->"9cedb524-0bb3-417a-95a6-aa2fd7301d48"],
+Cell[1325, 41, 81, 0, 38, "Text",ExpressionUUID->"f1749e51-4484-4a93-932a-df8286a66fc2"],
+Cell[1409, 43, 116, 1, 43, "Input",ExpressionUUID->"19c6cc8e-a63c-4e4a-922c-3a7754cad030"],
+Cell[1528, 46, 127, 0, 40, "Text",ExpressionUUID->"433bc48f-9180-4aa3-92a9-75001635bcef"],
+Cell[1658, 48, 634, 14, 116, "Input",ExpressionUUID->"8cf51ad3-9426-4f23-b1d4-bdcd1c51931d"],
+Cell[2295, 64, 246, 4, 64, "Text",ExpressionUUID->"badcb725-03cc-437f-b940-dc287cebb332"],
+Cell[2544, 70, 707, 16, 116, "Input",ExpressionUUID->"e74091dd-539c-4b6d-bbcd-eeaeba297e53"],
+Cell[3254, 88, 113, 0, 38, "Text",ExpressionUUID->"18941eb6-c612-420c-a3d8-232ad076f387"],
+Cell[3370, 90, 260, 5, 43, "Input",ExpressionUUID->"ad4fb1a2-1f20-4eea-bdbd-b6d29aca6ffa"],
+Cell[3633, 97, 114, 0, 38, "Text",ExpressionUUID->"56b014c8-22ea-42dd-b3d5-421071de04f5"],
+Cell[3750, 99, 290, 6, 43, "Input",ExpressionUUID->"7426ea5c-348b-444f-9095-4f10dc9a887c"],
+Cell[4043, 107, 140, 2, 38, "Text",ExpressionUUID->"548007f0-449b-4dab-9f9d-4f75b91158fc"],
+Cell[4186, 111, 269, 6, 43, "Input",ExpressionUUID->"89ed6d70-0181-4555-81df-42da73b014bd"],
+Cell[4458, 119, 112, 0, 40, "Text",ExpressionUUID->"875f92b0-7a67-48d9-8909-dbe76e396c40"],
+Cell[4573, 121, 146, 2, 28, "Input",ExpressionUUID->"06d867ba-ceed-4d13-a2d9-02cf4efc6876"],
+Cell[4722, 125, 142, 1, 40, "Text",ExpressionUUID->"5a6e399a-4bf3-4730-93ed-264066937edc"],
+Cell[4867, 128, 268, 6, 43, "Input",ExpressionUUID->"39702d38-db44-48ae-9b6e-3e686ba29ba6"],
+Cell[5138, 136, 191, 3, 28, "Input",ExpressionUUID->"e604fa91-91c1-4cbd-b4a5-5030d8b2bfdd"]
+}, Open  ]]
+}
+]
+*)
+

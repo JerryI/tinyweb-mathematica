@@ -1,0 +1,38 @@
+<?wsp LoadPage["header.wsp"] ?>
+
+    <body class="home">
+        <?wsp LoadPage["navbar.wsp"] ?>
+
+        <div class="bs-docs-home-page" id="content" role="main">
+            <div class="container">
+                <div class="rows">
+                    <div class="row top">
+                        <h1 class="lead">In development</h1>
+
+                    </div>
+                    
+                                
+
+                    <!--<div class="row">
+                        <h2>Community</h2>
+                        <p>
+                            <a href=" ">Connect</a> with people using and developing DerbyJS! Ask questions and show off what you are building on the
+                            <a href=" " target="_blank">mailing list</a>, <a href=" " target="_blank">StackOverflow</a>,
+                            <a href=" " target="_blank">GitHub</a> and more!
+                        </p>
+                    </div>-->
+             
+                </div>
+            </div>
+        <?wsp LoadPage["footer.wsp"] ?>
+        </div>
+        <table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 250px; display: none; top: 46px; left: 904px; position: absolute;">
+            <tbody>
+                <tr>
+                    <td class="gssb_f"></td>
+                    <td class="gssb_e" style="width: 100%;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Display Image</title>
+  </head>
+  <body>
+   <?wsp ExportString[session, "SVG"] ?>
+
+  </body>
+</html>

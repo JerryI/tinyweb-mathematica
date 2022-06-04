@@ -1,0 +1,45 @@
+<div class="navbar navbar-static-top navbar-fixed-top bs-docs-nav" id="top" role="banner">
+    <div class="header-container">
+        <div class="navbar-header">
+            <a href="https://<?wsphost?>/" class="navbar-brand">
+                <div class="fire pb-3">
+                    <div class="flames" id="logoFlames" style="display: block">
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                    </div>
+                    <img height="44" id="logoico" src="http://<?wsphost?>/mathematicaIcon.svg" />
+                    <div id="smoke" style="display: none">
+                      <span class="s0"></span>
+                      <span class="s1"></span>
+                      <span class="s2"></span>
+                      <span class="s3"></span>
+                      <span class="s4"></span>
+                      <span class="s5"></span>
+                      <span class="s6"></span>
+                      <span class="s7"></span>
+                      <span class="s8"></span>
+                      <span class="s9"></span>
+                    </div>
+                 </div>
+            </a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="/">Overview</a></li>
+                <li class=""><a href="/docs/index.wsp">Docs</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    var rotationdegrees = 0;
+
+    core.Pong = function(args, env) {
+      console.log("[p]");
+      rotationdegrees = rotationdegrees + 90;
+      document.getElementById("logoico").style= "transform: rotate("+rotationdegrees+"deg);";
+    };
+</script>

@@ -1,0 +1,16 @@
+<h1 class="heading">
+    Session
+</h1>
+<p>From any page you have an access to the current request and post data (see <a href="docs/tutorial/forms.wsp">Forms</a>)</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session <span class="cm-tag">?&gt;</span> 
+    </code>
+</div>
+<p>URL parameters are stored in Query assotiation, you can also use session to transfer the data between <a href="docs/tutorial/components.wsp">components</a>.</p>
+<p>To make redirect after POST query set the field</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["Redirect"] = "page.wsp" <span class="cm-tag">?&gt;</span> 
+    </code>
+</div>

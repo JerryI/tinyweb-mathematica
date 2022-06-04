@@ -1,0 +1,41 @@
+<h1 class="heading">
+    Overview
+</h1>
+<p>All files with .wsp extension will be processed using WSP engine. To embed any Mathematica code - use the following syntax</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> 1 + 1<span class="cm-tag">?&gt;</span> 
+    </code>
+</div>
+<p>All output of the Mathematica expression converts to the string.</p>
+<p>Of course you can break expressions to generate HTML code like in PHP</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span>Table[<span class="cm-tag">?&gt;</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;  <span class="cm-tag">&lt;?wsp</span>i^2<span class="cm-tag">?&gt;</span>
+        <span class="cm-tag">&lt;?wsp</span>, {i,3}]<span class="cm-tag">?&gt;</span>
+    </code>
+</div>
+<p>Graphics objects are converted to SVG pictures</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> Plot[x, {x,0,1}]<span class="cm-tag">?&gt;</span> 
+    </code>
+</div>
+
+<p>Any defined variables are global, except the variables which passed by <a href="/docs/index.wsp?page=components.wsp">LoadPage</a> and <a href="/docs/index.wsp?page=session.wsp">session</a></p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> var = 33<span class="cm-tag">?&gt;</span> 
+    </code>
+</div>
+
+
+
+<!--<h2 class="heading">
+    Related documentation
+</h2>
+<ul>
+    <li><a href="https://github.com/share/sharedb">ShareDB</a></li>
+</ul>-->
+<a class="btn btn-outline btn-lg next" href="/docs/index.wsp?page=components.wsp">Next&nbsp; ➔</a>

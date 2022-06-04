@@ -1,0 +1,135 @@
+<h1 class="heading">
+    Forms
+</h1>
+<h2 class="heading">GET method</h2>
+<p>The simple url-coded form can be written as</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;form action=&quot;form.wsp&quot; method=&quot;get&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Send my greetings&lt;/button&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+      &lt;/form&gt;</span>
+    </code>
+</div>
+<p>Somewhere in form.wsp you can fetch the result using</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["Query", "say"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+<p>Try it now!</p>
+<div class="example">
+<form action="docs/tutorial/formtest.wsp" method="get">
+    <div>
+      <label for="say">What greeting do you want to say?</label>
+      <input name="say" id="say" value="Hi">
+    </div>
+    <div>
+      <label for="to">Who do you want to say it to?</label>
+      <input name="to" id="to" value="Mom">
+    </div>
+    <div>
+      <button>Send my greetings</button>
+    </div>
+  </form>
+</div>
+
+<h2 class="heading">POST method</h2>
+<p>The simple form can be written similar to the previous example, however the data is sent differently and has no limitations on the size</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;form action=&quot;form.wsp&quot; method=&quot;post&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Send my greetings&lt;/button&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+      &lt;/form&gt;</span>
+    </code>
+</div>
+<p>The result is stored in data field</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["data", "say"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+<p>Try it now!</p>
+<div class="example">
+<form action="docs/tutorial/formtest.wsp" method="post">
+    <div>
+      <label for="say">What greeting do you want to say?</label>
+      <input name="say" id="say" value="Hi">
+    </div>
+    <div>
+      <label for="to">Who do you want to say it to?</label>
+      <input name="to" id="to" value="Mom">
+    </div>
+    <div>
+      <button>Send my greetings</button>
+    </div>
+  </form>
+</div>
+
+<p>To transfer multiple field can be done in the same fashion. You should change the encoding type</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">
+            &lt;form action=&quot;form.wsp&quot; method=&quot;post&quot; enctype='multipart/form-data'&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=&quot;file&quot; name=&quot;files&quot; multiple&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;button&gt;Send my greetings&lt;/button&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &lt;/form&gt;
+
+        </span>
+    </code>
+</div>
+<p>Each file has a field with the filename and data stored as ByteArray</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["data", "files"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+<p>Try it now!</p>
+<div class="example">
+    <form action="docs/tutorial/formtest.wsp" method="post" enctype='multipart/form-data'>
+        <div>
+          <label for="say">What greeting do you want to say?</label>
+          <input name="say" id="say" value="Hi">
+        </div>
+        <div>
+          <label for="to">Who do you want to say it to?</label>
+          <input name="to" id="to" value="Mom">
+        </div>
+        <input type="file" name="files" multiple>
+        <div>
+          <button>Send my greetings</button>
+        </div>
+      </form>
+</div>
+<p>For now only text files are supported</p>
+
+<p>More about session you can find at <a href="docs/tutorial/session.wsp">Session</a>.</p>

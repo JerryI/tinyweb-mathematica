@@ -1,0 +1,9 @@
+<?wsp LoadPage["header.wsp"] ?>
+
+    <body class="home">
+        <?wsp LoadPage["navbar.wsp"] ?>
+
+        <div class="bs-docs-home" id="content" role="main">
+            <div class="container">
+                <?wsp LoadPage["docs/nav.wsp"] ?>
+                <div class="col-md-9 main">

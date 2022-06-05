@@ -1,0 +1,71 @@
+<?wsp LoadPage["docs/head.wsp"] ?>
+
+<h1 class="heading">
+    Websockets
+</h1>
+<p>Built on-top of the HTTP protocol as its upgrade feature. Keeps the connection alive until user closes the tab. Allows to have a full duplex channel between server an unlimited number of clients.</p>
+<h2 class="heading">Setting up the connection</h2>
+<p>For the simplicity there is a special JS script (or let's say a tiny framework) <span class="cm-tag">framework.js</span>, which contais all necessary functions. Just put the following lines somewhere in your header file</p>
+
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">
+            &lt;script type=&quot;text/javascript&quot; src=&quot;websockets.js&quot;&gt;&lt;/script&gt;<br />
+            &lt;script&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;    WSPSetHost(&quot;&lt;?wsphost?&gt;&quot;);<br />
+            &lt;/script&gt; 
+        </span> 
+    </code>
+</div>
+<p class="example-caption">It will define the default url to the address of your webserver<b>⤴</b></p>
+
+<p>In the Wolfram's console the message "websocket handshake" should pop up, when you open the webpage.</p>
+
+<h2 class="heading">Send the data to client</h2>
+<p>There are a few ways, how to do it.</p>
+<h3 class="heading">Broadcast to all clients</h2>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+     
+            WebSocketBroadcast[server, expression]
+  
+    </code>
+</div>
+<p>Where the expression field should be WL symbol like</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+    
+            WebSocketBroadcast[server, CustomFunction[Table[i, {i,1,10}], "Hello!"]]
+     
+    </code>
+</div>
+<p>This function will be converted to JSON array including all arguments. On the client's side the corresponding function must be</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">
+            core.CustomFunction = function(args, env) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;console.log(interpretate(args[0]));<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;console.log(args[1]);<br>
+            };
+        </span> 
+    </code>
+</div>
+<p class="example-caption">Place it somewhere in the footer. It will print all two arguments you sent<b>⤴</b></p>
+<p>If you are sure that the argument will be a string, you can ommit interpretate function, which decodes Mathematica's expressions.</p>
+
+<h3 class="heading">Broadcast to the channel</h2>
+    <p>this section is in the development</p> 
+
+<h3 class="heading">Subscribe to the channel</h2>
+    <p>this section is in the development</p>  
+
+<h2 class="heading">Send the data to the server</h2>
+<p>this section is in the development</p> 
+<!--<h2 class="heading">
+    Related documentation
+</h2>
+<ul>
+    <li><a href="https://github.com/share/sharedb">ShareDB</a></li>
+</ul>-->
+
+<?wsp LoadPage["docs/tail.wsp"] ?>

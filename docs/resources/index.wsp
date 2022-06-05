@@ -1,9 +1,5 @@
 <?wsp LoadPage["header.wsp"] ?>
-    <script type="text/javascript" src="framework.js"></script>
-    <script>
-        WSPSetHost("<?wsphost?>");
-    </script> 
-    
+
     <body class="home">
         <?wsp LoadPage["navbar.wsp"] ?>
 
@@ -11,13 +7,11 @@
             <div class="container">
                 <div class="rows">
                     <div class="row top">
-                        <h1 class="lead">The power of symbolic computation meets web design</h1>
-                        <h3>Tiny web server and hypertext preprocessor built on the freeware wolfram engine with websokets</h3>
-                        <a href="docs/index.wsp" class="getstarted">Get started</a>
-                    </div>
-                    <?wsp LoadPage["examples/hypertext.wsp"] ?> 
+                        <h1 class="lead">In development</h1>
 
-                    <?wsp LoadPage["examples/websockets.wsp"] ?>                   
+                    </div>
+                    
+                                
 
                     <!--<div class="row">
                         <h2>Community</h2>
@@ -26,11 +20,11 @@
                             <a href=" " target="_blank">mailing list</a>, <a href=" " target="_blank">StackOverflow</a>,
                             <a href=" " target="_blank">GitHub</a> and more!
                         </p>
-                    </div>
-                    <div class="row bottom"><a href="/" class="getstarted">Get started</a></div>-->
+                    </div>-->
+             
                 </div>
             </div>
-            <?wsp LoadPage["footer.wsp"] ?>
+        <?wsp LoadPage["footer.wsp"] ?>
         </div>
         <table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 250px; display: none; top: 46px; left: 904px; position: absolute;">
             <tbody>

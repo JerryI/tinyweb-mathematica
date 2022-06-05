@@ -1,23 +1,25 @@
+<?wsp LoadPage["docs/head.wsp"] ?>
+
 <h1 class="heading">
     Get started
 </h1>
-<p>Import the latest paclet from GitHub</p>
+<p>Import the latest packages from GitHub</p>
 <div class="example">
     <code class="language-mathematica" style="margin-left: 0;">
-    Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"]
+    Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"]<br>
     Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"]
     </code>
 </div>
 <p>Create the initial structure of the project</p>
 <div class="example">
     <code class="language-mathematica" style="margin-left: 0;">
-        -- &nbsp; your_project.nb<br>
+        -- &nbsp; yourproject.nb or yourscript.wls<br>
         -- &nbsp; public/<br>
         -- &nbsp; -- &nbsp; index.wsp
     </code>
 </div>
 
-<p>To create the simplest server - use function</p>
+<p>To create the simplest server - use functions</p>
 <div class="example">
     <code class="language-mathematica" style="margin-left: 0;">
         server = WEBServer[&quot;addr&quot; -&gt; &quot;127.0.0.1:80&quot;, <br />
@@ -27,9 +29,9 @@
     </code>
 </div>
 
-<p>Note: the parameter "socket-close" stands for the behavior when the response was sent. True means it will be closed, False - it will be collected to the garbage and after a few iterations will be closed. It can prevent connection issues on some Windows machines, because of a bug in TCP library. The connection closes before the whole data has sent.</p>
+<p>Note: the parameter "socket-close" stands for the behavior when the response was sent. "True" means it will be closed, False - collected to the garbage and after a few iterations will be closed. It can prevent connection issues on some Windows machines, because of a bug in TCP library (the connection closes before the whole data has sent).</p>
 
-<p>Stop the server</p>
+<p>To stop the server - use</p>
 <div class="example">
     <code class="language-mathematica" style="margin-left: 0;">
         server // WEBServerStop
@@ -43,4 +45,6 @@
     <li><a href="https://github.com/share/sharedb">ShareDB</a></li>
 </ul>-->
 
-<a class="btn btn-outline btn-lg next" href="/docs/index.wsp?page=forms.wsp">Next&nbsp; ➔</a>
+<a class="btn btn-outline btn-lg next" href="/docs/tutorial/forms.wsp">Next&nbsp; ➔</a>
+
+<?wsp LoadPage["docs/tail.wsp"] ?>

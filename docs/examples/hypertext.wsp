@@ -1,0 +1,80 @@
+<div class="row">
+    <h2 class="nobottom">Wolfram Script Pages</h2><h3>- hypertext preprocessor built on top of Wolfram Kernel -</h3>
+    <p>Embed Mathematica code into HTML/CSS/JS. It works similar to PHP or Mustache template engine.</p>
+    <div class="example">
+       <?wsp Table[ ?> <?wsp Graphics3D[i[], ImageSize->Small] ?> <?wsp, {i, {Icosahedron, Octahedron, Tetrahedron}}] ?>
+    </div>
+    <p class="example-caption">All graphics objects are converted to SVG strings<b>⤴</b></p>
+    <div class="example">
+        <code class="language-mathematica">
+        <span class="cm-tag">&lt;?wsp</span> Table[ <span class="cm-tag">?&gt;</span> <span class="cm-tag">&lt;?wsp</span> Graphics3D[i[], ImageSize-&gt;Small] <span class="cm-tag">?&gt;</span> <span class="cm-tag">&lt;?wsp</span>, {i, {Icosahedron, Octahedron, Tetrahedron}}] <span class="cm-tag">?&gt;</span> 
+        </code>
+    </div>
+    <p>If you need to calculate something more complex, use Module, With, Block as usual. All variables can be global
+    </p>
+    <div class="example">
+        <code class="language-mathematica">
+        <span class="cm-tag">&lt;ul&gt;  <br />
+            <br />
+            &lt;?wsp</span> <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;                    Module[{cities = &lt;||&gt;}, <br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        (cities[#[[2, 1]]] = First@Normal@GeoDistance[#, Here]) &amp; /@ GeoNearest[Entity[&quot;City&quot;], Here, 5];    <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                        With[{max = Max@cities},<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            cities = #/max &amp; /@ cities; <br />
+            <span class="cm-tag"> ?&gt;</span><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                       <span class="cm-tag"> &lt;?wsp</span> Table[ <span class="cm-tag">?&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                &lt;li style=&quot;display: block; font-size: &lt;?wsp</span> 1.5 cities[i] <span class="cm-tag">?&gt;em&quot;&gt;&lt;?wsp</span> i <span class="cm-tag">?&gt;&lt;/li&gt;</span><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            <span class="cm-tag">&lt;?wsp</span> , {i, cities//Keys} ] <span class="cm-tag">?&gt;</span><br />
+                        <br />
+                        <span class="cm-tag">&lt;?wsp</span> <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            ]<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;        ]<br />
+                <span class="cm-tag">?&gt;<br />
+            <br />
+                &lt;/ul&gt;</span>     
+        </code>
+    </div>   
+    <p class="underlined" style="text-align: center">List of cities nearby your location scaled by the distance via CSS</p>
+    <ul>  
+
+    <?wsp 
+        Module[{cities = <||>}, 
+
+            (cities[#[[2, 1]]] = First@Normal@GeoDistance[#, Here]) & /@ GeoNearest[Entity["City"], Here, 5];    
+            With[{max = Max@cities},
+                cities = #/max & /@ cities; 
+    ?>
+            <?wsp Table[ ?>
+                <li style="display: block; font-size: <?wsp 1.5 cities[i] ?>em"><?wsp i ?></li>
+            <?wsp , {i, cities//Keys} ] ?>
+            
+    <?wsp 
+            ]
+        ]
+    ?>
+
+    </ul>   
+    
+    <p class="example-caption">The result of the code above <b>⤴</b></p>
+    <br>
+    <p>Organize your code into components with designer-friendly HTML templates.</p>
+    <div class="example">
+        <code class="language-mathematica">
+        <span class="cm-tag">&lt;?wsp</span> LoadPage["page.wsp", {id = "some-id-from-database-or-idunno", other vars...}] <span class="cm-tag">?&gt;</span> 
+        </code>
+    </div> 
+    <br>
+    <p>The direct access to the query/session data</p> 
+    <div class="example">
+        <code class="language-mathematica">
+        <span class="cm-tag">&lt;?wsp</span> session <span class="cm-tag">?&gt;</span> 
+        </code>
+    </div>      
+    <div class="example">
+        <code class="white-code">
+        <?wsp session ?>
+        </code>
+    </div> 
+    <p class="example-caption">The result of the code above <b>⤴</b></p>              
+</div>

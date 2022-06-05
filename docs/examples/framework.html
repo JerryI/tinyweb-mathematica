@@ -1,0 +1,42 @@
+<div class="row">
+    <h2>Realtime sync and tracked symbols/expressions</h2>
+    <p>
+        There is an analogue of <a href="https://reference.wolfram.com/language/ref/Dynamic.html">Dynamic</a> function called <a href="">WebDynamic</a>. You can specify what expression or symbol will trigger the reevaluation of your expression. 
+    </p>
+    <div class="example">
+        <code class="language-mathematica">
+            &#123;&#123;<br>
+            &nbsp;WebDynamic[Hold[<br>
+            &nbsp;&nbsp;ExportString[<br>
+            &nbsp;&nbsp;&nbsp;Plot[<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{Sin[x],Sin[x+Now[[1,6]]/10]}<br>
+            &nbsp;&nbsp;&nbsp;,{x,0,2Pi}]<br>
+            &nbsp;&nbsp;,"SVG"]]<br>
+                    <br>
+            &nbsp;, Hold[Now[[1,6]]//Floor]]<br>
+            &#125;&#125;   
+        </code>
+    </div> 
+    <p>
+        The last row corresponds to the expression for tracking. At any changes WS will send the new evaluated expression via websockets.
+    </p>
+    <div class="example">
+       
+        <p class="example-caption">It is synced in the real-time</p>
+    </div>
+    <p>
+        For more precise control of you can specify for JS handler where should you put a new data. For instance this example above with the clock 
+    </p>
+    <div class="example">
+        <code class="language-mathematica">
+            &lt;g id="hour" style="&#123;&#123;<br>
+            &nbsp;&nbsp;WebDynamic[<br>
+            &nbsp;&nbsp;&nbsp;Hold[<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;"transform:rotate("&lt;&gt;ToString[hrPosition]&lt;&gt;"deg)"<br>
+            &nbsp; &nbsp;&nbsp;],<br>
+            &nbsp;&nbsp;&nbsp;Hold[Now[[1,6]]//Floor],<br>
+            &nbsp;&nbsp;&lt;|"id"-&gt;"hour", "property"-&gt;"style"|&gt;]<br>
+            &#125;&#125;"&gt;  
+        </code>
+    </div>                        
+</div>

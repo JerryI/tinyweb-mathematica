@@ -1,0 +1,134 @@
+<div class="row">
+    <h2>Websockets</h2>
+    <p style="text-align: center;">
+        An easy broadcast to all connected clients from Mathematica
+    </p>    
+    <div class="example">
+        <div class="clockbox">
+            <svg
+              id="clock"
+              xmlns="http://www.w3.org/2000/svg"
+              width="600"
+              height="200"
+              viewBox="0 0 600 600">
+              
+              <g id="face">
+                <circle class="circle" cx="300" cy="300" r="253.9" />
+                <path
+                  class="hour-marks"
+                  d="M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6"
+                />
+                <circle class="mid-circle" cx="300" cy="300" r="16.2" />
+              </g>
+              <g id="hour" style="transform:rotate('0 deg')">
+                <path class="hour-arm" d="M300.5 298V142" />
+                <circle class="sizing-box" cx="300" cy="300" r="253.9" />
+              </g>
+              <g id="minute" style="transform:rotate('0 deg')">
+                <path class="minute-arm" d="M300.5 298V67" />
+                <circle class="sizing-box" cx="300" cy="300" r="253.9" />
+              </g>
+              <g id="second" style="transform:rotate('0 deg')">
+                <path class="second-arm" d="M300.5 350V55" />
+                <circle class="sizing-box" cx="300" cy="300" r="253.9" />
+              </g>
+            </svg>
+          </div>                            
+        <p class="example-caption">The positions of arrow are recalculated on server for an each second</p>
+    </div>
+    <p style="text-align: center;">Every second Mathematica executes the following code </p>
+    <div class="example">
+        <code class="language-mathematica">
+            With[{<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                hr = Now[[1, 4]] 180/12 // N,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                mn = Now[[1, 5]] 180/60 // N,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                sc = Now[[1, 6]] 180/60 // N<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                },<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;               SetClock[hr, mn, sc]<br>
+               ]            
+        </code>
+    </div> 
+    <br>
+    <p style="text-align: center;">On the client side the function SetClock is defined using JS</p> 
+    <div class="example">
+        <code class="language-mathematica">
+            core.SetClock =  function(args, env) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;hr.style  = "transform: rotate("+ args[0] +"deg)";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;mn.style  = "transform: rotate("+ args[1] +"deg)";<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;sec.style = "transform: rotate("+ args[2] +"deg)";<br>
+              }
+        </code>
+    </div>     
+    <br><br>
+    <h3>Effortlessly data transfer to across all clients in real-time</h3>
+    <p style="text-align: center;">
+        Built-in functions in a tiny JS framework allows to use the same syntax as in Mathematica
+    </p>     
+    <div class="example">
+        <input id="webinput" type="textarea" value="Type something...">                            
+        <p class="example-caption">Try to open the page in a new window and watch the result</p>
+    </div>  
+    <div class="example">
+        <p style="text-align: center;">
+            Client's side
+        </p>        
+        <code class="language-mathematica">    
+            <span class="cm-tag">
+
+                &lt;input id=&quot;webinput&quot; type=&quot;textarea&quot; value=&quot;Type something...&quot;&gt;<br />
+                &lt;script&gt;<br />
+                                      
+
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;            const input = document.getElementById('webinput');<br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;            input.addEventListener('input', updateValue);<br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;            function updateValue(e) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;  socket.send(`UpdateInput["${input.value}"]`);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;  console.log(`${input.value}`);<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;            };<br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;            core.SetInput =  function(args, env) {<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;  input.value = interpretate(args[0]);<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;           };<br>
+            
+            <span class="cm-tag">&lt;/script&gt; </span>
+            
+        </code>
+    </div>  
+    <p style="text-align: center;">
+        On the Mathematica's side there is only one line
+        <div class="example">
+            <code class="language-mathematica">    
+                UpdateInput[string_] := WebSocketBroadcast[server, SetInput[string], client]
+            </code>
+        </div>         
+    </p>    
+</div>  
+
+<script>
+var hr = document.getElementById("hour");
+var mn = document.getElementById("minute");
+var sec = document.getElementById("second");
+
+
+core.SetClock =  function(args, env) {
+  hr.style  = "transform: rotate("+ args[0] +"deg)";
+  mn.style  = "transform: rotate("+ args[1] +"deg)";
+  sec.style = "transform: rotate("+ args[2] +"deg)";
+};
+
+const input = document.getElementById('webinput');
+
+input.addEventListener('input', updateValue);
+
+function updateValue(e) {
+  socket.send(`UpdateInput["${input.value}"]`);
+  console.log(`${input.value}`);
+};
+
+core.SetInput =  function(args, env) {
+  input.value = interpretate(args[0]);
+};
+</script>

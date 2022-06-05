@@ -4,8 +4,8 @@
 <p>Import the latest paclet from GitHub</p>
 <div class="example">
     <code class="language-mathematica" style="margin-left: 0;">
-    PacletInstall["https://github.com/JerryI/tinyweb-mathematica/blob/main/Tinyweb.paclet?raw=true"]
-    &lt;&lt;Tinyweb`
+    Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"]
+    Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"]
     </code>
 </div>
 <p>Create the initial structure of the project</p>

@@ -36,7 +36,7 @@
           </div>                            
         <p class="example-caption">The positions of arrow are recalculated on server for an each second</p>
     </div>
-    <p style="text-align: center;">Every 1 second Mathematica executes the following code </p>
+    <p style="text-align: center;">Every second Mathematica executes the following code </p>
     <div class="example">
         <code class="language-mathematica">
             With[{<br>

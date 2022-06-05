@@ -8,4 +8,4 @@ ALPHA
 
 Docs (or live version examples/demo/public)
 ----------
-https://jerryi.github.io/tinyweb-mathematica/docs
+https://jerryi.github.io/tinyweb-mathematica/

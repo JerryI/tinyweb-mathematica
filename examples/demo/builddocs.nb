@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     11814,        286]
-NotebookOptionsPosition[     10812,        262]
-NotebookOutlinePosition[     11223,        278]
-CellTagsIndexPosition[     11180,        275]
+NotebookDataLength[     12960,        304]
+NotebookOptionsPosition[     12086,        283]
+NotebookOutlinePosition[     12496,        299]
+CellTagsIndexPosition[     12453,        296]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -73,7 +73,7 @@ Cell[BoxData[{
           ")"}], "->", "\"\<\>\""}]}], "]"}]}], ")"}], "&"}], "/@", 
    "files"}]}]}], "Input",
  CellLabel->
-  "In[100]:=",ExpressionUUID->"3801fa07-fe96-464d-861f-e847eaafaa9b"],
+  "In[160]:=",ExpressionUUID->"3801fa07-fe96-464d-861f-e847eaafaa9b"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -112,7 +112,7 @@ public\\\\navbar.wsp\"\>",
    ",", "\<\"D:\\\\Github\\\\tinyweb-mathematica\\\\examples\\\\demo\\\\\
 public\\\\resources\\\\index.wsp\"\>"}], "}"}]], "Output",
  CellLabel->
-  "Out[100]=",ExpressionUUID->"07a5aa57-c0b6-47e8-9179-ea4a43ead131"],
+  "Out[160]=",ExpressionUUID->"ac4c59d2-c8e3-4f01-9e43-37c362033bb1"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -130,7 +130,7 @@ Cell[BoxData[
    ",", "\<\"navbar.wsp\"\>", ",", "\<\"resources\\\\index.wsp\"\>"}], 
   "}"}]], "Output",
  CellLabel->
-  "Out[101]=",ExpressionUUID->"7e2fc61a-4378-46ee-a83a-9c0939e21fc9"],
+  "Out[161]=",ExpressionUUID->"44827d8d-2925-4315-915e-32ecba188648"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -164,10 +164,8 @@ websockets.wsp\"\>",
    ",", "\<\"D:\\\\Github\\\\tinyweb-mathematica\\\\docs\\\\resources\\\\\
 index.wsp\"\>"}], "}"}]], "Output",
  CellLabel->
-  "Out[102]=",ExpressionUUID->"8151ac5c-c5c8-47a3-8952-96236029d345"]
+  "Out[162]=",ExpressionUUID->"64fe7e66-3b2f-4660-af7a-d5df1aac98e8"]
 }, Open  ]],
-
-Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"\[IndentingNewLine]", 
@@ -202,66 +200,89 @@ Cell[BoxData[
           RowBox[{
            RowBox[{"NotebookDirectory", "[", "]"}], "<>", 
            "\"\<public\>\""}]}], " ", "}"}], ",", "\[IndentingNewLine]", 
-        "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"DeleteFile", "[", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"WriteString", "[", 
+         RowBox[{
+          RowBox[{"fl", "=", 
+           RowBox[{"CreateFile", "[", 
+            RowBox[{
+             RowBox[{"StringReplace", "[", 
+              RowBox[{
+               RowBox[{"Global`rendered", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], ",", 
+               RowBox[{"\"\<.wsp\>\"", "->", "\"\<.html\>\""}]}], "]"}], ",", 
+             RowBox[{"OverwriteTarget", "->", "True"}]}], "]"}]}], ",", 
           RowBox[{"StringReplace", "[", 
            RowBox[{
-            RowBox[{"Global`rendered", "[", 
-             RowBox[{"[", "i", "]"}], "]"}], ",", 
-            RowBox[{"\"\<wsp\>\"", "->", "\"\<html\>\""}]}], "]"}], "]"}], 
-         ";", "\[IndentingNewLine]", 
-         RowBox[{"WriteString", "[", 
-          RowBox[{
-           RowBox[{"fl", "=", 
-            RowBox[{"CreateFile", "[", 
+            RowBox[{"LoadPage", "[", 
              RowBox[{
-              RowBox[{"StringReplace", "[", 
-               RowBox[{
-                RowBox[{"Global`rendered", "[", 
-                 RowBox[{"[", "i", "]"}], "]"}], ",", 
-                RowBox[{"\"\<wsp\>\"", "->", "\"\<html\>\""}]}], "]"}], ",", 
-              RowBox[{"OverwriteTarget", "->", "True"}]}], "]"}]}], ",", 
-           RowBox[{"StringReplace", "[", 
-            RowBox[{
-             RowBox[{"LoadPage", "[", 
               RowBox[{
-               RowBox[{"clear", "[", 
-                RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
-               RowBox[{"{", 
-                RowBox[{
-                "Global`session", "=", 
-                 "\"\<<|Scheme->None,User->None,Domain->None,Port->None,Path->\
-{},Query-><||>,Fragment->None,method->GET,Host->{127.0.0.1},Connection->{keep-\
+               RowBox[{
+                RowBox[{"StringReplace", "[", 
+                 RowBox[{"#", ",", 
+                  RowBox[{"\"\<\\\\\>\"", "->", "\"\</\>\""}]}], "]"}], "&"}],
+                "@", 
+               RowBox[{"(", 
+                RowBox[{"clear", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], ")"}]}], ",", " ", 
+              RowBox[{"{", 
+               RowBox[{
+               "Global`session", "=", 
+                "\"\<<|Scheme->None,User->None,Domain->None,Port->None,Path->{\
+},Query-><||>,Fragment->None,method->GET,Host->{127.0.0.1},Connection->{keep-\
 alive},Upgrade-Insecure-Requests->{1},User-Agent->{Mozilla/5.0,(Windows,NT,10.\
 0,Win64,x64),AppleWebKit/537.36,(KHTML,,like,Gecko),Chrome/102.0.5005.63,\
 Safari/537.36},Accept->{text/html,application/xhtml+xml,application/xml,q=0.9,\
 image/avif,image/webp,image/apng,*/*,q=0.8,application/signed-exchange,v=b3,q=\
 0.9},Accept-Encoding->{gzip,,deflate},Accept-Language->{ru-RU,ru,q=0.9,en-US,\
 q=0.8,en,q=0.7,de,q=0.6}|>\>\""}], "}"}]}], "]"}], ",", " ", 
-             RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{
               RowBox[{
-               RowBox[{
-               "\"\<<base href=\\\"http://host/\\\">\>\"", "->", "\"\<\>\""}],
-                ",", " ", 
-               RowBox[{
-               "\"\<<script>\n\n        WSPSetHost(\\\"host\\\");\n\n    \
-</script>\>\"", "->", "\"\<\>\""}]}], "}"}]}], "]"}]}], "]"}]}]}], 
+              "\"\<http://host/\>\"", "->", 
+               "\"\<https://jerryi.github.io/tinyweb-mathematica\>\""}], ",", 
+              " ", 
+              RowBox[{
+              "\"\<<script>\n\n        WSPSetHost(\\\"host\\\");\n\n    \
+</script>\>\"", "->", "\"\<\>\""}], ",", " ", 
+              RowBox[{"\"\<.wsp\>\"", "->", "\"\<.html\>\""}], ",", " ", 
+              RowBox[{
+              "\"\<src=\\\"styles.css\>\"", "->", 
+               "\"\<src=\\\"https://jerryi.github.io/tinyweb-mathematica/\
+styles.css\>\""}], "\[IndentingNewLine]", "\[IndentingNewLine]", ",", " ", 
+              RowBox[{
+              "\"\<href=\\\"styles.css\>\"", "->", 
+               "\"\<href=\\\"https://jerryi.github.io/tinyweb-mathematica/\
+styles.css\>\""}], "\[IndentingNewLine]", "\[IndentingNewLine]", ",", " ", 
+              RowBox[{
+              "\"\<href=\\\"/\\\"\>\"", "->", 
+               "\"\<href=\\\"https://jerryi.github.io/tinyweb-mathematica/\\\"\
+\>\""}], "\[IndentingNewLine]", ",", " ", 
+              RowBox[{
+              "\"\<href=\\\"/docs\>\"", "->", 
+               "\"\<href=\\\"https://jerryi.github.io/tinyweb-mathematica/\
+docs\>\""}], "\[IndentingNewLine]", ",", " ", 
+              RowBox[{
+              "\"\<href=\\\"docs\>\"", "->", 
+               "\"\<href=\\\"https://jerryi.github.io/tinyweb-mathematica/\
+docs\>\""}], ",", "\[IndentingNewLine]", 
+              RowBox[{"\"\<A^\[CenterDot]\>\"", "->", "\"\<   \>\""}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+              "\"\<src=\\\"/mathematicaIcon.svg\\\"\>\"", "->", 
+               "\"\<src=\\\"https://jerryi.github.io/tinyweb-mathematica/\
+mathematicaIcon.svg\\\"\>\""}]}], "}"}]}], "]"}], ",", 
+          RowBox[{"CharacterEncoding", "->", "\"\<UTF8\>\""}]}], "]"}]}], 
        "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
       RowBox[{"Close", "[", "fl", "]"}], ";"}], "\[IndentingNewLine]", ",", 
      RowBox[{"{", 
       RowBox[{"i", ",", "1", ",", 
        RowBox[{"files", "//", "Length"}]}], "}"}]}], "]"}]}]}]], "Input",
  CellLabel->
-  "In[127]:=",ExpressionUUID->"13cd81b5-87cf-4e9f-8257-a00038dfc014"],
-
-Cell[BoxData["\<\"D:\\\\Github\\\\tinyweb-mathematica\\\\docs\"\>"], "Output",
- CellLabel->
-  "Out[128]=",ExpressionUUID->"db037442-3100-4c34-94bf-ea5d002f7cde"]
-}, Open  ]]
+  "In[194]:=",ExpressionUUID->"13cd81b5-87cf-4e9f-8257-a00038dfc014"]
 },
 WindowSize->{1140., 413.25},
-WindowMargins->{{1360.5, Automatic}, {-12, Automatic}},
+WindowMargins->{{1339.5, Automatic}, {Automatic, 51}},
 FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"5c1a2610-3302-463b-bfa4-ee29869b2349"
@@ -280,17 +301,12 @@ Notebook[{
 Cell[558, 20, 553, 13, 78, "Input",ExpressionUUID->"864404e6-c01d-419c-9a04-cef98bef59c9"],
 Cell[CellGroupData[{
 Cell[1136, 37, 1303, 38, 152, "Input",ExpressionUUID->"3801fa07-fe96-464d-861f-e847eaafaa9b"],
-Cell[2442, 77, 2060, 37, 242, "Output",ExpressionUUID->"07a5aa57-c0b6-47e8-9179-ea4a43ead131"],
-Cell[4505, 116, 836, 16, 71, "Output",ExpressionUUID->"7e2fc61a-4378-46ee-a83a-9c0939e21fc9"],
-Cell[5344, 134, 1672, 32, 166, "Output",ExpressionUUID->"8151ac5c-c5c8-47a3-8952-96236029d345"]
+Cell[2442, 77, 2060, 37, 242, "Output",ExpressionUUID->"ac4c59d2-c8e3-4f01-9e43-37c362033bb1"],
+Cell[4505, 116, 836, 16, 71, "Output",ExpressionUUID->"44827d8d-2925-4315-915e-32ecba188648"],
+Cell[5344, 134, 1672, 32, 166, "Output",ExpressionUUID->"64fe7e66-3b2f-4660-af7a-d5df1aac98e8"]
 }, Open  ]],
-Cell[CellGroupData[{
-Cell[7053, 171, 3579, 84, 592, "Input",ExpressionUUID->"13cd81b5-87cf-4e9f-8257-a00038dfc014"],
-Cell[10635, 257, 161, 2, 32, "Output",ExpressionUUID->"db037442-3100-4c34-94bf-ea5d002f7cde"]
-}, Open  ]]
+Cell[7031, 169, 5051, 112, 744, "Input",ExpressionUUID->"13cd81b5-87cf-4e9f-8257-a00038dfc014"]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

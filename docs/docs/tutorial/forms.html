@@ -1,1 +1,194 @@
-$Failed
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>WSP Demo</title>
+        <base href="https://jerryi.github.io/tinyweb-mathematica">
+        <link type="text/css" rel="stylesheet" href="https://jerryi.github.io/tinyweb-mathematica/styles.css" />
+        
+
+    </head><body class="home"><div class="navbar navbar-static-top navbar-fixed-top bs-docs-nav" id="top" role="banner">
+    <div class="header-container">
+        <div class="navbar-header">
+            <a href="https://jerryi.github.io/tinyweb-mathematica/" class="navbar-brand">
+                <div class="fire pb-3">
+                    <div class="flames" id="logoFlames" style="display: block">
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                       <div class="flame"></div>
+                    </div>
+                    <img height="44" id="logoico" src="https://jerryi.github.io/tinyweb-mathematica/mathematicaIcon.svg" />
+                    <div id="smoke" style="display: none">
+                      <span class="s0"></span>
+                      <span class="s1"></span>
+                      <span class="s2"></span>
+                      <span class="s3"></span>
+                      <span class="s4"></span>
+                      <span class="s5"></span>
+                      <span class="s6"></span>
+                      <span class="s7"></span>
+                      <span class="s8"></span>
+                      <span class="s9"></span>
+                    </div>
+                 </div>
+            </a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="https://jerryi.github.io/tinyweb-mathematica/">Overview</a></li>
+                <li class=""><a href="https://jerryi.github.io/tinyweb-mathematica/docs/index.html">Docs</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    var rotationdegrees = 0;
+
+    core.Pong = function(args, env) {
+      console.log("[p]");
+      rotationdegrees = rotationdegrees + 90;
+      document.getElementById("logoico").style= "transform: rotate("+rotationdegrees+"deg);";
+    };
+</script><div class="bs-docs-home" id="content" role="main">
+            <div class="container"><div class="col-md-3 sidebar">
+    <ul class="list-group">
+        <li class="list-group-item level-0 active"><a>TinyWEB</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/index.html">Get started</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/forms.html">Forms</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/websockets.html">Websockets</a></li>        
+
+        <li class="list-group-item level-0 active"><a>WSP</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/wspoverview.html">Overview</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/components.html">Components</a></li>
+        <li class="list-group-item level-2"><a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/session.html">Session</a></li>
+    </ul>
+</div>
+
+                <div class="col-md-9 main"><h1 class="heading">
+    Forms
+</h1>
+<h2 class="heading">GET method</h2>
+<p>The simple url-coded form can be written as</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;form action=&quot;form.html&quot; method=&quot;get&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Send my greetings&lt;/button&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+      &lt;/form&gt;</span>
+    </code>
+</div>
+<p>Somewhere in form.html you can fetch the result using</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["Query", "say"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+
+<h2 class="heading">POST method</h2>
+<p>The simple form can be written similar to the previous example, however the data is sent differently and has no limitations on the size</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;form action=&quot;form.html&quot; method=&quot;post&quot;&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button&gt;Send my greetings&lt;/button&gt;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+      &lt;/form&gt;</span>
+    </code>
+</div>
+<p>The result is stored in data field</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["data", "say"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+
+<p>To transfer multiple field can be done in the same fashion. You should change the encoding type</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">
+            &lt;form action=&quot;form.html&quot; method=&quot;post&quot; enctype='multipart/form-data'&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;label for=&quot;say&quot;&gt;What greeting do you want to say?&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;input name=&quot;say&quot; id=&quot;say&quot; value=&quot;Hi&quot;&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;label for=&quot;to&quot;&gt;Who do you want to say it to?&lt;/label&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;input name=&quot;to&quot; id=&quot;to&quot; value=&quot;Mom&quot;&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=&quot;file&quot; name=&quot;files&quot; multiple&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &lt;button&gt;Send my greetings&lt;/button&gt;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br />
+          &lt;/form&gt;
+
+        </span>
+    </code>
+</div>
+<p>Each file has a field with the filename and its data stored as a ByteArray</p>
+<div class="example">
+    <code class="language-mathematica" style="margin-left: 0;">
+        <span class="cm-tag">&lt;?wsp</span> session["data", "files"] <span class="cm-tag">?&gt; </span>            
+    </code>
+</div>
+
+<p>Only text files are supported for now.</p>
+<p>For the debugging purpose you can pass the result to some global variable you defined</p>
+<div class="example">
+  <code class="language-mathematica" style="margin-left: 0;">
+      <span class="cm-tag">&lt;?wsp</span> debug = session["data", "files"] <span class="cm-tag">?&gt; </span>            
+  </code>
+</div>
+<p>or create a picture...</p>
+<div class="example">
+  <code class="language-mathematica" style="margin-left: 0;">
+      <span class="cm-tag">&lt;?wsp</span> ExportString[session["data", "files"], "SVG"] <span class="cm-tag">?&gt; </span>            
+  </code>
+</div>
+
+<p>More about session you can find at <a href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/session.html">Session</a>.</p>
+
+
+<a class="btn btn-outline btn-lg next" href="https://jerryi.github.io/tinyweb-mathematica/docs/tutorial/websockets.html">Next&nbsp; a^\236\224</a><div class="bs-docs-footer footer" role="contentinfo">
+    <div class="container">
+        <ul class="bs-docs-footer-links muted">
+            <li><a href="https://github.com/JerryI/tinyweb-mathematica" target="_blank">GitHub</a></li>
+            <li>A^\[CenterDot]</li>
+            <li><a href="https://github.com/JerryI/tinyweb-mathematica/issues?state=open" target="_blank">Issues</a></li>
+        </ul>
+        <p class="attribution">Code licensed under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT</a>, documentation under <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+    </div>
+</div>
+</div>
+</div>
+    
+
+</div>
+<table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 250px; display: none; top: 46px; left: 904px; position: absolute;">
+<tbody>
+<tr>
+<td class="gssb_f"></td>
+<td class="gssb_e" style="width: 100%;"></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>CharacterEncoding -> UTF8

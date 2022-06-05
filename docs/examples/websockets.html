@@ -34,18 +34,20 @@
               </g>
             </svg>
           </div>                            
-        <p class="example-caption">The positions of arrow are recalculated on server for an each second</p>
+        <p class="example-caption">In the <a href="https://github.com/JerryI/tinyweb-mathematica/tree/master/examples/demo">real demo</a> the positions of arrow are recalculated on server every second</p>
     </div>
     <p style="text-align: center;">Every second Mathematica executes the following code </p>
     <div class="example">
         <code class="language-mathematica">
-            With[{<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                hr = Now[[1, 4]] 180/12 // N,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                mn = Now[[1, 5]] 180/60 // N,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                sc = Now[[1, 6]] 180/60 // N<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;                },<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;               SetClock[hr, mn, sc]<br>
-               ]            
+            WebSocketBroadcast[server,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;With[{<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                hr = Now[[1, 4]] 180/12 // N,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                mn = Now[[1, 5]] 180/60 // N,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;&nbsp;                sc = Now[[1, 6]] 180/60 // N<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;                },<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;&nbsp;               SetClock[hr, mn, sc]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;   ] <br>
+              ]           
         </code>
     </div> 
     <br>
@@ -66,7 +68,7 @@
     </p>     
     <div class="example">
         <input id="webinput" type="textarea" value="Type something...">                            
-        <p class="example-caption">Try to open the page in a new window and watch the result</p>
+        <p class="example-caption">In the <a href="https://github.com/JerryI/tinyweb-mathematica/tree/master/examples/demo">real demo</a> text area is mirrored to all clients, and updates on every type. Try to open the page in a new window and watch the result</p>
     </div>  
     <div class="example">
         <p style="text-align: center;">

@@ -511,9 +511,9 @@ var sec = document.getElementById("second");
 
 var intervalId = setInterval(function() {
     const d = new Date();
-let h = addZero(d.getHours());
-let m = addZero(d.getMinutes());
-let s = addZero(d.getSeconds());
+let h =d.getHours();
+let m = d.getMinutes();
+let s = d.getSeconds();
 
     hr.style  = "transform: rotate("+ 180*h/12 +"deg)";
 

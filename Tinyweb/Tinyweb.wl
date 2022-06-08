@@ -603,21 +603,8 @@ WebSocketSubscribe[WEBServer[server_Symbol?AssociationQ],channel_] := With[
 ]
 
 
-
 WEBServer /: 
-WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_] := With[
-    {
-        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket") &]
-    },
-
-    logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
-
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
-        
-]
-
-WEBServer /: 
-WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_] := With[
+WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_:"None"] := With[
     {
         clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && # !=  exception) &]
 

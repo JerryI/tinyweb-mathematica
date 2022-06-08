@@ -167,16 +167,16 @@ AST[s_, init_ : {}, "Module"] := Module[
 
 Parse[x_] := 
   StringJoin[x["HEAD"] ,
-   "{", (Switch[#[[1]], "HTML", StringJoin["'" , StringReplace[#[[2]], "\""->"-%-"], "'"], 
+   "{", (Switch[#[[1]], "HTML", StringJoin["+%+" , StringReplace[#[[2]], "\""->"-%-"], "+%+"], 
         "WF", #[[2]], "MODULE", Parse@#[[2]]] <> "," & /@ 
      Drop[x["BODY"], -1]) , (Switch[#[[1]], "HTML", 
-       StringJoin["'" , StringReplace[#[[2]], "\""->"-%-"], "'"], "WF", #[[2]], "MODULE", 
+       StringJoin["+%+" , StringReplace[#[[2]], "\""->"-%-"], "+%+"], "WF", #[[2]], "MODULE", 
        Parse@#[[2]]] &@Last[x["BODY"]]) , "}" , x["TAIL"]]
 
 Process[x_] := 
   StringJoin@@ToString/@((
-   Flatten@(Switch[#[[1]], "HTML", #[[2]], "WF", ReplaceAll[ToExpression@StringReplace[#[[2]], {"'" -> "\"", "\r\n" -> "", "-%-" -> "\\\""}], webrules], 
-        "MODULE", ReplaceAll[ToExpression@StringReplace[Parse@#[[2]], {"'" -> "\"", "\r\n" -> "", "-%-" -> "\\\""}], webrules]] & /@ x)))
+   Flatten@(Switch[#[[1]], "HTML", #[[2]], "WF", ReplaceAll[ToExpression@StringReplace[#[[2]], {"+%+" -> "\"", "\r\n" -> "", "-%-" -> "\\\""}], webrules], 
+        "MODULE", ReplaceAll[ToExpression@StringReplace[Parse@#[[2]], {"+%+" -> "\"", "\r\n" -> "", "-%-" -> "\\\""}], webrules]] & /@ x)))
 
 End[] (*`Private`*)
 

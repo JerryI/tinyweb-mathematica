@@ -237,11 +237,13 @@ Module[{stream, buffer=""},
 		writeLog[server, "mathematica error"];
 	];
 
+	(* fix url q*)
+			
+	server["connection", uuid, "session", "Query"] = server["connection", uuid, "session", "Query"]//Association;
+
 	Switch[server["connection", uuid, "session", "method"],
 		"GET",
-			(* fix url q*)
-			
-			server["connection", uuid, "session", "Query"] = server["connection", uuid, "session", "Query"]//Association;	
+	
 
 			HTTP[server][uuid];
 			(*try to create new request using the rest of the data*)

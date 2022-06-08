@@ -583,6 +583,7 @@ WEBServerStart[WEBServer[server_Symbol?AssociationQ]] := (
 	
 	server["status"] = If[FailureQ[server["listener"]], "failed" ,"listening"];
 	writeLog[server, "[<*Now*>] ::Tiny Web Server:: ``", server["status"]]; 
+	If[FailureQ[server["listener"]], writeLog[server, "[<*Now*>] ::Tiny Web Server:: ``", server["listener"]//Compress]];
 	WEBServer[server]
 )
 

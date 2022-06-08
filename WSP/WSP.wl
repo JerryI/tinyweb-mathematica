@@ -22,22 +22,29 @@ Process::usage =
 Parse::usage = 
 "LoadPage[filepath]"
 
-SetWSPPublicPath::usage = 
-"LoadPage[filepath]"
 
 
-$wsppublic = "";
-
-SetWSPPublicPath[path_] := ($wsppublic = path);
-
-LoadPage[p_, vars_:{}]:=
+LoadPage[p_, vars_:{}, OptionsPattern[]]:=
     Block[vars,
-        With[{$filepath = FileNameJoin[{$wsppublic,  If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]}]}, 
+        With[
+            
+            {$filepath = If[StringQ[$publicpath], 
+                                FileNameJoin[{$publicpath,  If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]}], 
+
+                                If[StringQ[OptionValue["base"]], 
+                                    FileNameJoin[{OptionValue["base"],  If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]}],
+                                    If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]
+                                ]
+                            ]
+            }, 
+
             With[{stream = Import[$filepath, "String"]},
                 Process@AST[stream, {}, "Simple"]
             ]
         ]
     ];
+
+Options[LoadPage] = {"base" -> Null};
 
 LoadString[p_, vars_:{}]:=
     Block[vars,

@@ -22,6 +22,9 @@ Process::usage =
 Parse::usage = 
 "LoadPage[filepath]"
 
+SetWSPPublicPath::usage = 
+"LoadPage[filepath]"
+
 
 $wsppublic = "";
 

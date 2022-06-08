@@ -575,7 +575,9 @@ WEBServerStart[WEBServer[server_Symbol?AssociationQ]] := (
         writeLog[server, "No WSP module was found..."];
         writeLog[server, "Only raw html will be shown"];
         server["skipWSP"] = True;
-    ];
+    ,
+		SetWSPPublicPath[server["path"]];
+	];
 
 	server["connection"] = <||>;
 

@@ -23,10 +23,13 @@ Parse::usage =
 "LoadPage[filepath]"
 
 
+$wsppublic = "";
+
+SetWSPPublicPath[path_] := ($wsppublic = path);
 
 LoadPage[p_, vars_:{}]:=
     Block[vars,
-        With[{$filepath = If[StringQ[$publicpath], FileNameJoin[{$publicpath,  If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]}], If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]]}, 
+        With[{$filepath = FileNameJoin[{$wsppublic,  If[$OperatingSystem == "Windows", StringReplace[p,"/"->"\\"], p]}]}, 
             With[{stream = Import[$filepath, "String"]},
                 Process@AST[stream, {}, "Simple"]
             ]

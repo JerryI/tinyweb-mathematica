@@ -601,7 +601,7 @@ WEBServerStop[WEBServer[server_Symbol?AssociationQ]] := (
 )
 
 WEBServer /: 
-WebSocketSubscribe[WEBServer[server_Symbol?AssociationQ],channel_] := With[{},
+WebSocketSubscribe[WEBServer[server_Symbol?AssociationQ],channel_, client_] := With[{},
 	(*usually can be called from client side. so the variable client will be passed*)
 	server["connection", client, "subscription"] = channel;
 ]

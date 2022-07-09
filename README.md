@@ -43,6 +43,41 @@ On the Mathematica's side there is only one line
     UpdateInput[string_] := WebSocketBroadcast[server, SetInput[string], client]
 ```
 
+# Usage
+Import the recent packages
+```mathematica
+Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"]
+Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"]
+```
+Create a folder in your notebook (or script) directory *public* for instance
+```
+--   yourproject.nb or yourscript.wls
+--   public/
+--   --   index.wsp
+```
+Then, put somehting in your *index.wsp*
+```php
+Hi! Your city is <?wsp CommonName /@ GeoNearest[Entity["City"], Here, 1] // First ?>
+```
+
+Run the command in the saved notebook to start the server locally
+```mathematica
+server = WEBServer["addr" -> "127.0.0.1:80",
+"path" -> NotebookDirectory[] <> "public", "socket-close" -> True]
+
+server // WEBServerStart
+```
+or inside the WolframScript
+```mathematica
+#!/usr/bin/env wolframscript
+
+Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"];
+Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"];
+
+server = WEBServer["addr" -> "127.0.0.1:80", "path" -> "public", "socket-close" -> True];
+server // WEBServerStart;
+```
+
 # Docs 
 The live version is /examples/demo/public
 

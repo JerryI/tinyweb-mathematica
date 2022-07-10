@@ -6,50 +6,6 @@
 
 (* ::Section:: *)
 (*Begin package*)
-WEBServer /: 
-WebSocketSubscribe[WEBServer[server_Symbol?AssociationQ],channel_, client_] := With[{},
-	(*usually can be called from client side. so the variable client will be passed*)
-	server["connection", client, "subscription"] = channel;
-]
-
-
-
-WEBServer /: 
-WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_] := With[
-    {
-        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket") &]
-    },
-
-    logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
-
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
-        
-]
-
-WEBServer /: 
-WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_] := With[
-    {
-        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && # !=  exception) &]
-
-    },
-
-    logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
-
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
-        
-]
-
-WEBServer /: 
-WebSocketPublish[WEBServer[server_Symbol?AssociationQ], exp_, channel_] := With[
-    {
-        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && TrueQ[server["connection", #, "subscription"] == channel]) &]
-    },
-
-    StringTemplate["broadcast websocket only for subs. number of connections: ``"][Length[clients]];
-
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
-        
-]
 
 
 BeginPackage["Tinyweb`"]
@@ -644,7 +600,50 @@ WEBServerStop[WEBServer[server_Symbol?AssociationQ]] := (
 	WEBServer[server]
 )
 
+WEBServer /: 
+WebSocketSubscribe[WEBServer[server_Symbol?AssociationQ],channel_, client_] := With[{},
+	(*usually can be called from client side. so the variable client will be passed*)
+	server["connection", client, "subscription"] = channel;
+]
 
+
+
+WEBServer /: 
+WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_] := With[
+    {
+        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket") &]
+    },
+
+    logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
+
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+        
+]
+
+WEBServer /: 
+WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_] := With[
+    {
+        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && # !=  exception) &]
+
+    },
+
+    logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
+
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+        
+]
+
+WEBServer /: 
+WebSocketPublish[WEBServer[server_Symbol?AssociationQ], exp_, channel_] := With[
+    {
+        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && TrueQ[server["connection", #, "subscription"] == channel]) &]
+    },
+
+    StringTemplate["broadcast websocket only for subs. number of connections: ``"][Length[clients]];
+
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+        
+]
 
 
 WEBServer[server_Symbol?AssociationQ][keys__String] := 

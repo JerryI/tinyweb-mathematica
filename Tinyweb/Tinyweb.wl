@@ -196,9 +196,10 @@ Module[{stream, buffer=""},
 	
 
 	(*the main part of the header*)
-	With[{raw = StringCases[buffer[[1]], RegularExpression["([A-Z]+) /(.*) "] :> {"$1", URLParse["$2"], "rawurl" -> "$2"}] // First},
+	With[{raw = StringCases[buffer[[1]], RegularExpression["([A-Z]+) /(.*) "] :> {"$1", URLParse["$2"], "$2"}] // First},
 		server["connection", uuid, "session"] = raw[[2]];
 		server["connection", uuid, "session", "method"] = raw[[1]];
+		server["connection", uuid, "session", "rawurl"] = raw[[3]];
 	];
 
 

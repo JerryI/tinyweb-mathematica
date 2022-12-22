@@ -502,7 +502,7 @@ With[{uuid = message["SourceSocket"][[1]]},
 
 	If[server["extralog"]//TrueQ,
 		writeLog[server, "-------- raw-tcp-data -------"];
-		writeLog[server, message["Data"]];
+		writeLog[server, message["DataByteArray"]//ByteArrayToString];
 		writeLog[server, "-------- end-tcp-data -------"];
 	];
 	(*writeLog[server, "--- raw data ---"];

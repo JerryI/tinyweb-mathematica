@@ -5,6 +5,7 @@
 
 * HTTP and WebSocket server
 * GET, POST methods
+* caching
 * single thread
 
 

@@ -502,7 +502,7 @@ With[{uuid = message["SourceSocket"][[1]]},
 
 	If[server["extralog"]//TrueQ,
 		writeLog[server, "-------- raw-tcp-data -------"];
-		writeLog[server, message["data"]];
+		writeLog[server, message["Data"]];
 		writeLog[server, "-------- end-tcp-data -------"];
 	];
 	(*writeLog[server, "--- raw data ---"];
@@ -562,7 +562,7 @@ WEBServer[opts___?OptionQ] := With[{server = Unique["Tinyweb`Objects`Server$"]},
     server = <|
 		"addr" -> OptionValue[WEBServer, Flatten[{opts}], "addr"], 
 		"path" -> OptionValue[WEBServer, Flatten[{opts}], "path"], 
-		"extralog" -> OptionValue[WEBServer, Flatten[{opts}], "extra-logging"];
+		"extralog" -> OptionValue[WEBServer, Flatten[{opts}], "extra-logging"],
 		"socket-close" -> OptionValue[WEBServer, Flatten[{opts}], "socket-close"], 
 		"status" -> "Not started", 
 		"handler" -> handler[server],

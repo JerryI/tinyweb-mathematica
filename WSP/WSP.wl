@@ -22,7 +22,21 @@ Process::usage =
 Parse::usage = 
 "LoadPage[filepath]"
 
+(* smart caching. credits https://github.com/KirillBelovTest *)
+ClearAll[cache]
 
+SetAttributes[cache, HoldFirst]
+
+cache[expr_, date_DateObject] := (
+	cache[expr, {"Date"}] = date; 
+	cache[expr, date] = expr
+);
+
+cache[expr_, interval_String: "Minute"] := (
+	If[DateObjectQ[cache[expr, {"Date"}]] && DateObject[Now, interval] != cache[expr, {"Date"}], 
+		cache[expr, cache[expr, {"Date"}]] =.]; 
+	cache[expr, DateObject[Now, interval]]
+);
 
 LoadPage[p_, vars_:{}, OptionsPattern[]]:=
     Block[vars,
@@ -38,9 +52,7 @@ LoadPage[p_, vars_:{}, OptionsPattern[]]:=
                             ]
             }, 
 
-            With[{stream = Import[$filepath, "String"]},
-                Process@AST[stream, {}, "Simple"]
-            ]
+            Process@(cache[ With[{stream = Import[$filepath, "String"]}, AST[stream, {}, "Simple"] ] ])
         ]
     ];
 

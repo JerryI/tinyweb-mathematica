@@ -3,10 +3,10 @@
 
 (* ::Input:: *)
 
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"];
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"];
+Import["../../Tinyweb/Tinyweb.wl"];
+Import["../../WSP/WSP.wl"];
 
-server = WEBServer["addr" -> "137.250.85.38:80", "path" -> "public", "socket-close" -> True];
+server = WEBServer["addr" -> "0.0.0.0:8080", "path" -> "public", "socket-close" -> True, "extra-logging" -> True];
 server // WEBServerStart;
 
 UpdateInput[

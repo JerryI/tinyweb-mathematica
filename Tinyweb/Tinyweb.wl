@@ -225,15 +225,15 @@ Module[{stream, buffer=""},
 
 
 	writeLog[server, "Request method: `` with ``", server["connection", uuid, "session", "method"], server["connection", uuid, "session", "rawurl"]];
-	
+
 	(*Upgrade*)
-	If[First@server["connection", uuid, "session", "Connection"] == "Upgrade",
+	If[MemberQ[server["connection", uuid, "session", "Connection"], "Upgrade"],
 		writeLog[server, "Upgrade connection"];
+		(*Safari, Edge, Old Chrome*)
 		Switch[First@server["connection", uuid, "session", "Upgrade"],
 			"websocket",
 			WebSocketConnect[server][uuid]
-
-		];
+		];	
 		Return[Null, Module];
 		writeLog[server, "mathematica error"];
 	];
@@ -457,6 +457,7 @@ With[{responce =
 			,
 				writeLog[server, "normal file: ``", fullpath];
 				With[{content = ReadByteArray[fullpath]},
+					writeLog[server, "size: ``", Length[content]];
 					Return[Join[StringToByteArray["HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[Length[content]] <> "\n\n"], content], Module];		
 				];
 			];

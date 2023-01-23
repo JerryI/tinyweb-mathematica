@@ -22,21 +22,29 @@ Process::usage =
 Parse::usage = 
 "LoadPage[filepath]"
 
+WSPCache::usage = 
+"WSPCache[\"On\"]"
+
 (* smart caching. credits https://github.com/KirillBelovTest *)
-ClearAll[cache]
+ClearAll[wcache]
 
-SetAttributes[cache, HoldFirst]
+SetAttributes[wcache, HoldFirst]
 
-cache[expr_, date_DateObject] := (
-	cache[expr, {"Date"}] = date; 
-	cache[expr, date] = expr
+wcache[expr_, date_DateObject] := (
+	wcache[expr, {"Date"}] = date; 
+	wcache[expr, date] = expr
 );
 
-cache[expr_, interval_String: "Minute"] := (
-	If[DateObjectQ[cache[expr, {"Date"}]] && DateObject[Now, interval] != cache[expr, {"Date"}], 
-		cache[expr, cache[expr, {"Date"}]] =.]; 
-	cache[expr, DateObject[Now, interval]]
+wcache[expr_, interval_String: "Minute"] := (
+	If[DateObjectQ[wcache[expr, {"Date"}]] && DateObject[Now, interval] != wcache[expr, {"Date"}], 
+		wcache[expr, wcache[expr, {"Date"}]] =.]; 
+	wcache[expr, DateObject[Now, interval]]
 );
+
+pcache = wcache;
+
+WSPCache["On"]  := pcache = wcache;
+WSPCache["Off"] := pcache = Function[x, x];
 
 LoadPage[p_, vars_:{}, OptionsPattern[]]:=
     Block[vars,
@@ -52,7 +60,7 @@ LoadPage[p_, vars_:{}, OptionsPattern[]]:=
                             ]
             }, 
 
-            Process@(cache[ With[{stream = Import[$filepath, "String"]}, AST[stream, {}, "Simple"] ] ])
+            Process@(pcache[ With[{stream = Import[$filepath, "String"]}, AST[stream, {}, "Simple"] ] ])
         ]
     ];
 

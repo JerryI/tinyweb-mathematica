@@ -99,9 +99,9 @@ A1YIpGbpRy7G8OozfRv4DUoPZxg=="]//Association
 
 
 constructReply[data_] := 
-Module[{json, payloadLength, jsonByteLength, buffer, 
-    lengthByteCount}, json = data // StringToByteArray // Normal;
-    jsonByteLength = data // StringLength;
+Module[{utf8data = ExportString[data, "String", CharacterEncoding -> "UTF8"], json, payloadLength, jsonByteLength, buffer, 
+    lengthByteCount}, json = utf8data // StringToByteArray // Normal;
+    jsonByteLength = utf8data // StringLength;
     buffer = FromDigits[{1, 0, 0, 0, 0, 0, 0, 1}, 2];
         
     If[jsonByteLength <= 125,
@@ -133,7 +133,7 @@ Module[{json, payloadLength, jsonByteLength, buffer,
         ]
     ];
    
-   Join[buffer // Flatten // ByteArray, StringToByteArray[data]]
+   Join[buffer // Flatten // ByteArray, StringToByteArray[utf8data]]
    
 ]
 

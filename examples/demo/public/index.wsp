@@ -1,5 +1,5 @@
 <?wsp LoadPage["header.wsp"] ?>
-    <script type="text/javascript" src="framework.js"></script>
+ 
     <script>
         WSPSetHost("<?wsphost?>");
     </script> 

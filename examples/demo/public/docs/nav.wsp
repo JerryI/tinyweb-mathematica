@@ -11,3 +11,13 @@
         <li class="list-group-item level-2"><a href="/docs/tutorial/session.wsp">Session</a></li>
     </ul>
 </div>
+
+<script>
+    var rotationdegrees = 0;
+
+    core.Pong = function(args, env) {
+      console.log("[p]");
+      rotationdegrees = rotationdegrees + 90;
+      document.getElementById("logoico").style= "transform: rotate("+rotationdegrees+"deg);";
+    };
+</script>

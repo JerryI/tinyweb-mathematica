@@ -437,37 +437,47 @@ With[{responce =
 	Module[{type = "", fullpath = server["path"]},
 		With[{url = If[StringLength[#] == 0, "index.wsp", #] &@ StringRiffle[server["connection", uuid, "session", "Path"], If[$OperatingSystem == "Windows", "\\", "/"]]},
 			type = MIMETypes[url//FileExtension];
+			If[!StringQ[type], type = "application/octet-stream"];
+
 			writeLog[server, "url `` type ``; ", url, type];
 			fullpath = FileNameJoin[{server["path"],  If[$OperatingSystem == "Windows", StringReplace[url,"/"->"\\"], url]}];
 			If[FileExistsQ[fullpath] != True,
 				writeLog[server, "file `` doesnt exist", fullpath];
+				WriteString[SocketObject[uuid], "HTTP/1.1 404 Not found\r\nContent-Length: 0\n\n"];
 				Return["HTTP/1.1 404 Not found\r\nContent-Length: 0\n\n", Module];
 			];
 			If[FileExtension@url == "wsp" && !KeyExistsQ[server,"skipWSP"],
 				Block[{WSP`$publicpath = server["path"], WSP`session = server["connection", uuid, "session"], WSP`host = server["addr"]},
 					With[{content = WSP`LoadPage[url]},
-						If[KeyExistsQ[WSP`session, "Redirect"],								
-							Return["HTTP/1.1 303 OK\r\nLocation: /"<> WSP`session["Redirect"] <>"\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[StringLength[content]] <> "\n\n" <> content, Module];
+						If[KeyExistsQ[WSP`session, "Redirect"],		
+							WriteString[SocketObject[uuid], "HTTP/1.1 303 OK\r\nLocation: /"<> WSP`session["Redirect"] <>"\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[StringLength[content]] <> "\n\n"];
+							WriteString[SocketObject[uuid], content];						
+							Return[Null, Module];
 						,
-							Return["HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[StringLength[content]] <> "\n\n" <> content, Module];
+							WriteString[SocketObject[uuid], "HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[StringLength[content]] <> "\n\n"];
+							WriteString[SocketObject[uuid], content];	
+							Return[Null, Module];
 						];
 					];
 
 				];
 			,
 				writeLog[server, "normal file: ``", fullpath];
-				With[{content = ReadByteArray[fullpath]},
-					writeLog[server, "size: ``", Length[content]];
-					Return[Join[StringToByteArray["HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[Length[content]] <> "\n\n"], content], Module];		
+				With[{size = FileByteCount[fullpath]},
+					writeLog[server, "size: ``", size];
+					(*Return[Join[StringToByteArray["HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[Length[content]] <> "\n\n"], content], Module];*)	
+					WriteString[SocketObject[uuid], "HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[size] <> "\n\n"];
+					BinaryWrite[SocketObject[uuid], ReadByteArray[fullpath]];
+					Return[Null, Module];		
 				];
 			];
 
 		];
 	]},
 
-	writeLog[server, "writting the responce"];
+	(*writeLog[server, "writting the responce"];
 	
-	If[StringQ[responce], WriteString[SocketObject[uuid], responce], BinaryWrite[SocketObject[uuid], responce]];
+	If[StringQ[responce], WriteString[SocketObject[uuid], responce], BinaryWrite[SocketObject[uuid], responce]];*)
 	
 	Unset[server["connection", uuid]];
 

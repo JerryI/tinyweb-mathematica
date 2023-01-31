@@ -6,8 +6,10 @@
 Import["../../Tinyweb/Tinyweb.wl"];
 Import["../../WSP/WSP.wl"];
 
-server = WEBServer["addr" -> "0.0.0.0:8080", "path" -> "public", "socket-close" -> True, "extra-logging" -> True];
+server = WEBServer["addr" -> "127.0.0.1:8080", "path" -> "public"];
 server // WEBServerStart;
+
+StringTemplate["Open your browser at http://``"][server["addr"]]//Print;
 
 UpdateInput[
    string_] := (WebSocketBroadcast[server, SetInput[string], client]);

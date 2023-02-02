@@ -148,13 +148,29 @@ writeLog[server_Symbol?AssociationQ, message_String, args___] :=
 (* ::Section:: *)
 (*Connection*)
 
+checkDeadConnections[server_Symbol?AssociationQ] := (
+(*not everytime*)
 
+	If[server["cnt"] > 3,
+
+		With[{n = Now},
+			If[(n - server["connection", #, "time"] < Quantity[5, "Seconds"]) && (!KeyExistsQ[server["connection", #], "donotclose"]), 
+				server["connection", #] = .;  Close[SocketObject[#] ];
+				writeLog[server, esc["green"]<>"id: "<>#<>" was closed due to inactivity"<>esc["reset"] ];
+
+			] &/@ Keys[ server["connection"] ];
+		];
+		server["cnt"] = 0;
+	,
+		server["cnt"] = server["cnt"] + 1;
+	]
+)
 
 
 (* ::Section:: *)
 (*Handler*)
 
-
+SetAttributes[checkDeadConnections, HoldFirst]
 SetAttributes[handler, HoldFirst]
 SetAttributes[HTTP, HoldFirst]
 SetAttributes[DecodeApplication, HoldFirst]
@@ -291,6 +307,7 @@ With[
 	(*default handler for all cases*)
 	server["connection", uuid, "default"] = WebSocketReceive;
 	server["connection", uuid, "next"] = WebSocketReceive;
+	server["connection", uuid, "donotclose"] = True;
 ]
 ]
 
@@ -301,7 +318,7 @@ Module[{frame},
 
 	(*close message detection*)
 	If[Take[data, 2] == {136, 130}, 
-		writeLog[server, "close websocket"];
+		writeLog[server, esc["red"]<>"close websocket"<>esc["reset"] ];
 		Close[SocketObject[uuid]];
 		Unset[server["connection", uuid]];
 
@@ -479,15 +496,16 @@ With[{responce =
 	
 	If[StringQ[responce], WriteString[SocketObject[uuid], responce], BinaryWrite[SocketObject[uuid], responce]];*)
 	
-	Unset[server["connection", uuid]];
+	(*Unset[server["connection", uuid]];
 
 	If[server["socket-close"],
 		writeLog["close socket"];
 		Close[SocketObject[uuid]];
+		writeLog[server, "closed id"<>esc["red"]<>uuid<>esc["reset"]];
 	,
 		writeLog["socket was added to trash"];
 		server["trash"] = {server["trash"], SocketObject[uuid]};
-	];
+	];*)
 	
 	
 ]
@@ -496,6 +514,8 @@ With[{responce =
 BufferFlatten[server_Symbol?AssociationQ][uuid_] := Join@@Select[{server["connection", uuid, "buffer"]}//Flatten, ByteArrayQ];
 SetAttributes[BufferFlatten, HoldFirst]
 
+(*a pipeline*)
+(*just accumulate*)
 handler[server_Symbol?AssociationQ][message_?AssociationQ] := 
 Module[{header = "", stream, buffer = {}, responce},
 With[{uuid = message["SourceSocket"][[1]]}, 
@@ -506,14 +526,22 @@ With[{uuid = message["SourceSocket"][[1]]},
 			"default" -> CreateRequest,
 			"next"-> Null,
 			"length" -> 0, 
-			"currentLength" -> 0
+			"time" -> Now,
+ 			"currentLength" -> 0
 		|>; 
-		writeLog[server, "[<*Now*>] New client"];
+		writeLog[server, esc["red"]<>"[<*Now*>] New client"<>esc["reset"] ];
+		writeLog[server, esc["red"]<>"id: "<>uuid<>esc["reset"] ];
+	,
+		writeLog[server, esc["magenta"]<>"[<*Now*>] Old client"<>esc["reset"] ];
+		writeLog[server, esc["magenta"]<>"id: "<>uuid<>esc["reset"] ];
 	];
+
+	(*keep alive, until we still have requests*)
+	server["connection", "time"] = Now;
 
 	If[server["extralog"]//TrueQ,
 		writeLog[server, "-------- raw-tcp-data -------"];
-		writeLog[server, message["DataByteArray"]//ByteArrayToString];
+		writeLog[server, esc["blue"]<>(message["DataByteArray"]//ByteArrayToString)<>esc["reset"]];
 		writeLog[server, "-------- end-tcp-data -------"];
 	];
 	(*writeLog[server, "--- raw data ---"];
@@ -523,7 +551,7 @@ With[{uuid = message["SourceSocket"][[1]]},
 	writeLog[server, "received: `` bytes", Length[message["DataByteArray"]]];
 
 	(*close open connections if it was set to keep them*)
-	If[!server["socket-close"], 
+	(*If[!server["socket-close"], 
 		If[server["cnt"] > 10,
 			writeLog["cleared connections"];
 			Close/@Flatten[server["trash"]];
@@ -531,7 +559,7 @@ With[{uuid = message["SourceSocket"][[1]]},
 		,
 			server["cnt"] += 1;
 		];
-	];
+	];*)
 
 	(*accumulating the data by default. fast method with nested arrays*)
 	(*we have to work with ByteArrays, otherwise websokets will not work. It creates a shitty conversion between string and bytes, cuz there is no method to stream bytearray*)
@@ -541,8 +569,16 @@ With[{uuid = message["SourceSocket"][[1]]},
 	
 	(*go by the default to next*)
 	writeLog[server, "try default"];
-	If[server["connection", uuid, "length"] == 0, server["connection", uuid, "default"][server][uuid]; Return[]];
-	
+	(*let us try to check the headers and may be, we will find something to write an answer*)
+	If[server["connection", uuid, "length"] == 0, 
+		server["connection", uuid, "default"][server][uuid]; 
+
+		(*from time to time one need to check dead connections*)
+		checkDeadConnections[server];
+		Return[];
+	];
+	(*if not*)
+
 	(*accumulation the data if we did not use it in request*)
 	server["connection", uuid, "currentLength"] += Length[message["DataByteArray"]];
 
@@ -567,6 +603,11 @@ Options[WEBServer] = {
 	"socket-close" -> True,
 	"extra-logging" -> False
 }
+
+esc = Association["reset" -> "\033[1;0m",
+   "black" -> "\033[1;30m", "red" -> "\033[1;31m",
+   "green" -> "\033[1;32m", "yellow" -> "\033[1;33m",
+   "blue" -> "\033[1;34m", "magenta" -> "\033[1;35m"];
 
 
 WEBServer[opts___?OptionQ] := With[{server = Unique["Tinyweb`Objects`Server$"]}, 

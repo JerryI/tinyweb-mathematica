@@ -154,7 +154,7 @@ checkDeadConnections[server_Symbol?AssociationQ] := (
 	If[server["cnt"] > 3,
 
 		With[{n = Now},
-			If[(n - server["connection", #, "time"] < Quantity[5, "Seconds"]) && (!KeyExistsQ[server["connection", #], "donotclose"]), 
+			If[(n - server["connection", #, "time"] > Quantity[7, "Seconds"]) && (!KeyExistsQ[server["connection", #], "donotclose"]), 
 				server["connection", #] = .;  Close[SocketObject[#] ];
 				writeLog[server, esc["green"]<>"id: "<>#<>" was closed due to inactivity"<>esc["reset"] ];
 
@@ -318,7 +318,8 @@ Module[{frame},
 
 	(*close message detection*)
 	If[Take[data, 2] == {136, 130}, 
-		writeLog[server, esc["red"]<>"close websocket"<>esc["reset"] ];
+		writeLog[server, esc["green"]<>"close websocket"<>esc["reset"] ];
+		writeLog[server, esc["green"]<>"id "<>uuid<>esc["reset"] ];
 		Close[SocketObject[uuid]];
 		Unset[server["connection", uuid]];
 

@@ -460,7 +460,7 @@ With[{responce =
 			writeLog[server, "url `` type ``; ", url, type];
 			fullpath = FileNameJoin[{server["path"],  If[$OperatingSystem == "Windows", StringReplace[url,"/"->"\\"], url]}];
 			(*try global search *)
-			If[FileExistsQ[fullpath] != True, fullpath = If[$OperatingSystem == "Windows", StringReplace[url,"/"->"\\"], url] ];			
+			If[FileExistsQ[fullpath] != True, fullpath = If[$OperatingSystem == "Windows", "\\"<>StringReplace[url,"/"->"\\"], "/"<>url] ];			
 			If[FileExistsQ[fullpath] != True,
 				writeLog[server, "file `` doesnt exist", fullpath];
 				WriteString[SocketObject[uuid], "HTTP/1.1 404 Not found\r\nContent-Length: 0\n\n"];

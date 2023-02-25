@@ -699,10 +699,10 @@ WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_] := W
 WEBServer /: 
 WebSocketPublish[WEBServer[server_Symbol?AssociationQ], exp_, channel_] := With[
     {
-        clients = Select[server["connection"]//Keys, (First@server["connection", #, "session", "Upgrade"] == "websocket" && TrueQ[server["connection", #, "subscription"] == channel]) &]
+        clients = Select[server["connection"]//Keys, (MemberQ[server["connection", #, "session", "Upgrade"], "websocket"] && TrueQ[server["connection", #, "subscription"] === channel]) &]
     },
 
-    StringTemplate["broadcast websocket only for subs. number of connections: ``"][Length[clients]];
+    StringTemplate["broadcast websocket only for subs. number of connections: ``"][Length[clients]]//Print;
 
     BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
         

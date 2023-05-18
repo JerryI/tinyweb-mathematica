@@ -42,6 +42,9 @@ WebSocketBroadcast::usage =
 WebSocketPublish::usage = 
 "WebSocketBroadcast[server, exp]"
 
+WebSocketPublishString::usage = 
+"WebSocketBroadcast[server, exp]"
+
 WebSocketSubscribe::usage = 
 "WebSocketBroadcast[server, exp]"
 
@@ -55,7 +58,7 @@ writeLog[server_, message_, args___] :=
 
 
 
-WebSocketSend[cli_, exp_] := BinaryWrite[SocketObject[cli], constructReply[ExportString[exp,"ExpressionJSON"]]];
+WebSocketSend[cli_, exp_] := BinaryWrite[SocketObject[cli], constructReply[ExportString[exp,"ExpressionJSON", "Compact" -> -1]]];
 
 Begin["`Private`"]
 
@@ -314,7 +317,7 @@ With[
 WebSocketReceive[server_Symbol?AssociationQ][uuid_] :=
 With[{data = BufferFlatten[server][uuid]//Normal (*it sucks. unpacking creates more data*)},
 Module[{frame},
-	writeLog[server, "websockets received"];
+	(*writeLog[server, "websockets received"];*)
 
 	(*close message detection*)
 	If[Take[data, 2] == {136, 130}, 
@@ -338,8 +341,7 @@ Module[{frame},
 	(*writeLog[server, "frame: ``", frame//Compress];*)
 
     If[frame["received"] < frame["length"],
-        writeLog[server, "websocket data received ``, must be ``", Length[data], frame["length"] + If[data[[2]] - 128 <= 125, 6, 8]];
-
+        
         server["connection", uuid,"buffer"] = data//ByteArray;
 		server["connection", uuid,"currentLength"] = Length[data];
 		(*considering extra data from the header of the frame, because handle doent care about websokets*)
@@ -347,7 +349,7 @@ Module[{frame},
     ,
 
         frame = MapIndexed[BitXor[#1, frame["key"][[Mod[#2[[1]] - 1, 4] + 1]]] &, frame["payload"]] // ByteArray // ByteArrayToString;
-        writeLog[server, "websockets was finnaly received and will be evaluated: ``", frame];
+        
 
 		(*reset for a new q*)
         server["connection", uuid,"buffer"] = {};
@@ -452,22 +454,28 @@ Module[{stream, bondary,string="",sub="", info},
 
 HTTP[server_Symbol?AssociationQ][uuid_] := 
 With[{responce =
-	Module[{type = "", fullpath = server["path"]},
+	Module[{type = "", fullpath, paths = Flatten[{server["path"]}]},
 		With[{url = If[StringLength[#] == 0, "index.wsp", #] &@ StringRiffle[server["connection", uuid, "session", "Path"], If[$OperatingSystem == "Windows", "\\", "/"]]},
 			type = MIMETypes[url//FileExtension];
 			If[!StringQ[type], type = "application/octet-stream"];
 
 			writeLog[server, "url `` type ``; ", url, type];
-			fullpath = FileNameJoin[{server["path"],  If[$OperatingSystem == "Windows", StringReplace[url,"/"->"\\"], url]}];
-			(*try global search *)
-			If[FileExistsQ[fullpath] != True, fullpath = If[$OperatingSystem == "Windows", "\\"<>StringReplace[url,"/"->"\\"], "/"<>url] ];			
+			
+			
+			Do[
+				fullpath = FileNameJoin[{i,  If[$OperatingSystem == "Windows", StringReplace[url,"/"->"\\"], url]}];
+				If[FileExistsQ[fullpath], Break[Do],
+					Print["did not find by the path: "<>fullpath];
+				];
+			, {i, paths}];
+
 			If[FileExistsQ[fullpath] != True,
 				writeLog[server, "file `` doesnt exist", fullpath];
 				WriteString[SocketObject[uuid], "HTTP/1.1 404 Not found\r\nContent-Length: 0\n\n"];
 				Return["HTTP/1.1 404 Not found\r\nContent-Length: 0\n\n", Module];
 			];
 			If[FileExtension@url == "wsp" && !KeyExistsQ[server,"skipWSP"],
-				Block[{WSP`$publicpath = server["path"], WSP`session = server["connection", uuid, "session"], WSP`host = server["addr"]},
+				Block[{WSP`$publicpath = Flatten[{server["path"]}]//First, WSP`session = server["connection", uuid, "session"], WSP`host = server["addr"]},
 					With[{content = WSP`LoadPage[url]},
 						If[KeyExistsQ[WSP`session, "Redirect"],		
 							WriteString[SocketObject[uuid], "HTTP/1.1 303 OK\r\nLocation: /"<> WSP`session["Redirect"] <>"\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[StringLength[content]] <> "\n\n"];
@@ -486,7 +494,7 @@ With[{responce =
 				With[{size = FileByteCount[fullpath]},
 					writeLog[server, "size: ``", size];
 					(*Return[Join[StringToByteArray["HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[Length[content]] <> "\n\n"], content], Module];*)	
-					WriteString[SocketObject[uuid], "HTTP/1.1 200 OK\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[size] <> "\n\n"];
+					WriteString[SocketObject[uuid], "HTTP/1.1 200 OK\r\nCache-Control: max-age=999600\r\nContent-Type: " <> type <>"\r\nContent-Length: " <> ToString[size] <> "\n\n"];
 					BinaryWrite[SocketObject[uuid], ReadByteArray[fullpath]];
 					Return[Null, Module];		
 				];
@@ -532,26 +540,26 @@ With[{uuid = message["SourceSocket"][[1]]},
 			"time" -> Now,
  			"currentLength" -> 0
 		|>; 
-		writeLog[server, esc["red"]<>"[<*Now*>] New client"<>esc["reset"] ];
-		writeLog[server, esc["red"]<>"id: "<>uuid<>esc["reset"] ];
+		(*writeLog[server, esc["red"]<>"[<*Now*>] New client"<>esc["reset"] ];
+		writeLog[server, esc["red"]<>"id: "<>uuid<>esc["reset"] ];*)
 	,
-		writeLog[server, esc["magenta"]<>"[<*Now*>] Old client"<>esc["reset"] ];
-		writeLog[server, esc["magenta"]<>"id: "<>uuid<>esc["reset"] ];
+		(*writeLog[server, esc["magenta"]<>"[<*Now*>] Old client"<>esc["reset"] ];
+		writeLog[server, esc["magenta"]<>"id: "<>uuid<>esc["reset"] ];*)
 	];
 
 	(*keep alive, until we still have requests*)
 	server["connection", "time"] = Now;
 
-	If[server["extralog"]//TrueQ,
+	(*If[server["extralog"]//TrueQ,
 		writeLog[server, "-------- raw-tcp-data -------"];
 		writeLog[server, esc["blue"]<>(message["DataByteArray"]//ByteArrayToString)<>esc["reset"]];
 		writeLog[server, "-------- end-tcp-data -------"];
-	];
+	];*)
 	(*writeLog[server, "--- raw data ---"];
 	writeLog[server, message["Data"]];
 	writeLog[server, "--- end data ---"];*)
 
-	writeLog[server, "received: `` bytes", Length[message["DataByteArray"]]];
+	(*writeLog[server, "received: `` bytes", Length[message["DataByteArray"]]];*)
 
 	(*close open connections if it was set to keep them*)
 	(*If[!server["socket-close"], 
@@ -568,10 +576,10 @@ With[{uuid = message["SourceSocket"][[1]]},
 	(*we have to work with ByteArrays, otherwise websokets will not work. It creates a shitty conversion between string and bytes, cuz there is no method to stream bytearray*)
 	server["connection", uuid, "buffer"] = {server["connection", uuid, "buffer"], message["DataByteArray"]};
 	 
-	writeLog[server, "buffer length: ``, must be: ``, real: ``", server["connection", uuid, "currentLength"], server["connection", uuid, "length"], Length@BufferFlatten[server][uuid]];
+	(*writeLog[server, "buffer length: ``, must be: ``, real: ``", server["connection", uuid, "currentLength"], server["connection", uuid, "length"], Length@BufferFlatten[server][uuid]];*)
 	
 	(*go by the default to next*)
-	writeLog[server, "try default"];
+	(*writeLog[server, "try default"];*)
 	(*let us try to check the headers and may be, we will find something to write an answer*)
 	If[server["connection", uuid, "length"] == 0, 
 		server["connection", uuid, "default"][server][uuid]; 
@@ -602,7 +610,7 @@ SetAttributes[WEBServer, HoldFirst]
 
 Options[WEBServer] = {
     "addr" -> "127.0.0.1:80", 
-	"path" -> "/",
+	"path" -> {"/"},
 	"socket-close" -> True,
 	"extra-logging" -> False
 }
@@ -680,7 +688,7 @@ WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_] := With[
 
     logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
 
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON", "Compact" -> -1]]]& /@ clients;
         
 ]
 
@@ -693,7 +701,7 @@ WebSocketBroadcast[WEBServer[server_Symbol?AssociationQ], exp_, exception_] := W
 
     logWrite[server, StringTemplate["broadcast websocket. number of connections: ``"][Length[clients]]];
 
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON", "Compact" -> -1]]]& /@ clients;
         
 ]
 
@@ -703,9 +711,21 @@ WebSocketPublish[WEBServer[server_Symbol?AssociationQ], exp_, channel_] := With[
         clients = Select[server["connection"]//Keys, (MemberQ[server["connection", #, "session", "Upgrade"], "websocket"] && TrueQ[server["connection", #, "subscription"] === channel]) &]
     },
 
-    StringTemplate["broadcast websocket only for subs of `` channel. number of connections: ``"][channel, Length[clients]]//Print;
+    (*StringTemplate["broadcast websocket only for subs of `` channel. number of connections: ``"][channel, Length[clients]]//Print;*)
 
-    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON"]]]& /@ clients;
+    BinaryWrite[SocketObject[#], constructReply[ExportString[exp,"ExpressionJSON", "Compact" -> -1]]]& /@ clients;
+        
+]
+
+WEBServer /: 
+WebSocketPublishString[WEBServer[server_Symbol?AssociationQ], exp_, channel_] := With[
+    {
+        clients = Select[server["connection"]//Keys, (MemberQ[server["connection", #, "session", "Upgrade"], "websocket"] && TrueQ[server["connection", #, "subscription"] === channel]) &]
+    },
+
+    (*StringTemplate["broadcast websocket only for subs of `` channel. number of connections: ``"][channel, Length[clients]]//Print;*)
+
+    BinaryWrite[SocketObject[#], constructReply[exp]]& /@ clients;
         
 ]
 

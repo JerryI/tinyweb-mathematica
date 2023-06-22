@@ -1,0 +1,4 @@
+<?wsp LoadPage["t/header.wsp"] ?>
+<?wsp LoadPage["c/game"] ?>
+
+<?wsp LoadPage["t/footer.wsp"] ?>

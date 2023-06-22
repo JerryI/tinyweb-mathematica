@@ -46,6 +46,8 @@ pcache = wcache;
 WSPCache["On"]  := pcache = wcache;
 WSPCache["Off"] := pcache = Function[x, x];
 
+findComponent[path_] := If[DirectoryQ[path], FileNameJoin[{path, "index.wsp"}], path]
+
 LoadPage[p_, vars_:{}, OptionsPattern[]]:=
     Block[vars,
         With[
@@ -60,7 +62,7 @@ LoadPage[p_, vars_:{}, OptionsPattern[]]:=
                             ]
             }, 
 
-            Process@(pcache[ With[{stream = Import[$filepath, "String"]}, AST[stream, {}, "Simple"] ] ])
+            Process@(pcache[ With[{stream = Import[$filepath // findComponent, "String"]}, AST[stream, {}, "Simple"] ] ])
         ]
     ];
 

@@ -1,0 +1,28 @@
+<alias Component = "/c/component/" ?>
+
+<Component dir="" params="">
+    balalal
+</Component>
+
+<!-- 
+    somewhere in /c/component/ file
+
+    Component[dir_, params_][child_String] := ...
+      
+-->
+
+<wl Table >
+
+<wl i />
+
+</wl {i, 10}>
+
+<wl Now />
+
+<wl LoadPage["l.wsp"] >
+
+
+
+<Table>
+
+</Table {i,10}>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<?wsp LoadPage["t/header.wsp"] ?>
+<html lang="en" dir="ltr" class="plugin-pages plugin-id-default">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="generator" content="Docusaurus v2.4.1" />
+        <title>Hello from Wolfram Web Server | Wolfram Web Server</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+        <link rel="stylesheet" href="/assets/styles.css" />
+    </head>
+    <body class="navigation-with-keyboard">
+        <div id="__docusaurus">
+            <div id="__docusaurus-base-url-issue-banner-container"></div>
+            <div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div>
+            <nav aria-label="Main" class="navbar navbar--fixed-top">
+                <div class="navbar__inner">
+                    <div class="navbar__items">
+                        <button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button">
+                            <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+                        </button>
+                        <a class="navbar__brand" href="/wljs-docs/">
+                            <div class="navbar__logo">
+                                <img src="/wljs-docs/img/logo.svg" alt="My Site Logo" class="themedImage_ToTc themedImage--light_HNdA" />
+                                <img src="/wljs-docs/img/logo.svg" alt="My Site Logo" class="themedImage_ToTc themedImage--dark_i4oU" />
+                            </div>
+                            <b class="navbar__title text--truncate">Wolfram Web Server</b>
+                        </a>
+                        <a class="navbar__item navbar__link" href="/wljs-docs/docs/interpreter/intro">Interpreter</a><a class="navbar__item navbar__link" href="/wljs-docs/docs/graphics/">Graphics</a>
+                        <a class="navbar__item navbar__link" href="/wljs-docs/docs/frontend/instruction">Frontend</a>
+                    </div>
+                </div>
+                <div role="presentation" class="navbar-sidebar__backdrop"></div>
+            </nav>
+            <div  class="main-wrapper mainWrapper_z2l0">
+                <header class="hero hero--primary heroBanner_qdFl">
+                    <div class="container">
+                        <div style="width: auto; min-height: 420px; position: relative; border-radius: 6px; padding: 1em; background-color: transparent;">
+                            <?wsp LoadPage["c/logo"] ?>
+                        </div>
+                        <h1 class="hero__title">Wolfram Web Server</h1>
+                        <p class="hero__subtitle" style="margin-top: -0.6em; padding-bottom: 0.6em;">Open-source Wolfram Web Server &amp; Template Engine</p>
+                        <!--<div class="buttons_AeoN"><a class="button button--secondary button--lg" href="/sorry">Getting started - 5min ⏱️</a></div>-->
+                    </div>
+                </header>
+                <main>
+                    <section class="features_t9lD">
+                        <div class="container">
+                            <div class="row">
+                                <?wsp LoadPage["c/feature", {
+                                    title = "Template Engine",
+                                    desc  = "Easy to use, feels like plain HTML",
+                                    hero  = LoadPage["c/code", {
+                                        code = "
+&lsaquo;?wsp Now//TextString ?&rsaquo;
+"<>TextString[Now]
+                                    }]
+                                }] ?>
+
+                                <?wsp LoadPage["c/feature", {
+                                    title = "Runs everywhere and belongs to you",
+                                    desc  = "Requires only <b>freeware Wolfram Engine or Mathematica</b> installed. It does not depend on external or 3rd party resources",
+                                    hero  = ""
+                                }] ?>                                
+
+                                <?wsp LoadPage["c/feature", {
+                                    title = "Graphics Hydration",
+                                    desc  = "Say goodbye to bulky SVG. Plot the data and bind it seamlessly to the Kernel using <a href=\"https://github.com/JerryI/wljs-interpreter\">WLJS Interpreter</a>",
+                                    hero  = LoadPage["c/plot"]
+                                }] ?> 
+
+                                <?wsp LoadPage["c/feature", {
+                                    title = "Dynamics & IO blocks",
+                                    desc  = "Add sliders, textboxes and bind it to expressions executed WL Kernel. No Javasript coding required",
+                                    hero  = LoadPage["c/wordWidget"]
+                                }] ?> 
+
+                                <?wsp LoadPage["c/feature", {
+                                    title = "Javascript framework",
+                                    desc  = "A strong binding between JS ecosystem and Wolfram Language",
+                                    hero  = LoadPage["c/stat"]
+                                }] ?>                                 
+
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+            <footer class="footer footer--dark">
+                <div class="container container-fluid">
+                    <div class="row footer__links">
+                        <div class="col footer__col">
+                            <div class="footer__title">More</div>
+                            <ul class="footer__items clean-list">
+                                <li class="footer__item">
+                                    <a href="https://github.com/JerryI/wolfram-js-frontend" target="_blank" rel="noopener noreferrer" class="footer__link-item">
+                                        GitHub Frontend
+                                        <svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU">
+                                            <path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li class="footer__item">
+                                    <a href="https://github.com/JerryI/wljs-interpreter" target="_blank" rel="noopener noreferrer" class="footer__link-item">
+                                        GitHub WLJS Interpreter
+                                        <svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_nPIU">
+                                            <path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer__bottom text--center"><div class="footer__copyright">2023 Wolfram Web Server</div></div>
+                </div>
+            </footer>
+        </div>
+    </body>
+<?wsp LoadPage["t/footer.wsp"] ?>    
+</html>
+

@@ -1,0 +1,14 @@
+<pre id="ram"></pre>
+
+<?wsp StartTimer[Null] // Grow ?>
+
+<script type="module">
+    const place = document.getElementById('ram');
+    const timer = () => setTimeout(async () => {
+            const data = await server.ask('getStats');
+            place.innerText = data + " mB";
+            timer();
+    }, 100);
+
+    core.StartTimer = (args, env) => timer()
+</script>

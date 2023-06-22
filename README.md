@@ -29,7 +29,7 @@ It works similar to PHP or Mustache template engine
 ```
 If you need to calculate something more complex, use Module, With, Block as usual. All variables can be global.
 
-# Hydrator & WLJS
+## Hydrator
 Say goodbye to bulky SVG. Plot the data and bind it seamlessly to the Kernel using [WLJS Interpreter](https://github.com/JerryI/wljs-interpreter).
 
 For example
@@ -43,7 +43,10 @@ or for dynamic plots
 ```
 then when you change `data` variable it will automatically update graph on the page. Please see more about it on [WLJS Interpreter](https://github.com/JerryI/wljs-interpreter) page.
 
-or if you want to run code entirely in a browser
+# Fullstack framework 
+*Use Wolfram Language on backend & frontend*
+
+You can always run code entirely in a browser
 
 ```mathematica
 <div id="balls"></div>

@@ -10,14 +10,12 @@
                 <header class="hero hero--primary heroBanner_qdFl">
                     <div class="container">
                         <div style="width: auto; min-height: 420px; position: relative; border-radius: 6px; padding: 1em; background-color: transparent;">
-                            <?wsp LoadPage["c/logo"] ?>
+                            <?wsp LoadPage["c/plotter"] ?>
                         </div>
-                        <h1 class="hero__title">Wolfram Web Server</h1>
-                        <p class="hero__subtitle" style="margin-top: -0.6em; padding-bottom: 0.6em;">Open-source Wolfram Web Server &amp; Template Engine</p>
+                        <p class="hero__subtitle" style="margin-top: -0.6em; padding-bottom: 0.6em;">Interactive demo</p>
                         <!--<div class="buttons_AeoN"><a class="button button--secondary button--lg" href="/sorry">Getting started - 5min ⏱️</a></div>-->
                     </div>
                 </header>
-                <?wsp LoadPage["t/main.wsp"] ?>
             </div>
             <?wsp LoadPage["t/footer.wsp"] ?>
         </div>

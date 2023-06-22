@@ -1,14 +1,24 @@
-<pre id="ram"></pre>
+<div id="stat"></div>
 
-<?wsp StartTimer[Null] // Grow ?>
+
+<?wsp (  
+    ram = {GetRam[Null]};
+    FrontEndVirtual[{
+        AttachDOM["stat"],
+        ListLinePlotly[ram, ImageSize->300]
+    }];
+    
+    While[True,
+        ram = {ram, GetRam[Null]}//Flatten;
+        Pause[1];
+    ];
+    
+    ) // Grow ?>
 
 <script type="module">
-    const place = document.getElementById('ram');
-    const timer = () => setTimeout(async () => {
-            const data = await server.ask('getStats');
-            place.innerText = data + " mB";
-            timer();
-    }, 100);
-
-    core.StartTimer = (args, env) => timer()
+    core.GetRam = async (args, env) => {
+        const data = await server.ask('getStats');
+        console.log('get stats...');
+        return data;
+    }
 </script>

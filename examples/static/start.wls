@@ -4,7 +4,6 @@ Import["../../WSP/WSP.wl"]
 Get["modules/Hydrator.wl"]
 Get["modules/Events.wl"]
 
-WSPCache["Off"];
 RandomWord[];
 
 server = WEBServer["addr" -> "127.0.0.1:5699", "path" -> "public", "socket-close"->True]

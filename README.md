@@ -1,18 +1,26 @@
-## The power of symbolic computation meets web design
+## The power of symbolic computation meets web 
 
+![three pics](./logo.png)
+
+__Not stable__
+*has issues on Windows machines*
 
 # Tiny HTTP webserver
 
-* HTTP and WebSocket server
+* HTTP and WS server
 * GET, POST methods
 * caching
 * single thread
+* build-in libraries
 
-
-# Wolfram Script Pages
+## Template Engine
 > *hypertext preprocessor built on top of Wolfram Kernel*
-
-Embed Mathematica code into HTML/CSS/JS. It works similar to PHP or Mustache template engine
+Imagine PHP, but with Wolfram Language. Easy to use, feels like plain HTML
+```
+<?wsp Now//TextString ?>
+Thu 22 Jun 2023 23:43:21
+```
+It works similar to PHP or Mustache template engine
 
 ![three pics](./threepics.png)
 ```php
@@ -22,64 +30,83 @@ Embed Mathematica code into HTML/CSS/JS. It works similar to PHP or Mustache tem
 ```
 If you need to calculate something more complex, use Module, With, Block as usual. All variables can be global.
 
-Built-in functions in a tiny JS framework allows to use the same syntax as in Mathematica. In the real demo text area is mirrored to all clients, and updates on every type using websockets.
+# Hydrator & WLJS
+Say goodbye to bulky SVG. Plot the data and bind it seamlessly to the Kernel using [WLJS Interpreter](https://github.com/JerryI/wljs-interpreter).
 
-![three pics](./mirror.gif)
+For example
+```mathematica
+<?wsp Plot[x^2, {x,0,1}] // Plant>
+```
+
+or for dynamic plots
+```mathematica
+<?wsp ListLinePlotly[data // Hold] // Plant>
+```
+then when you change `data` variable it will automatically update graph on the page. Please see more about it on [WLJS Interpreter](https://github.com/JerryI/wljs-interpreter) page.
+
+or if you want to run code entirely in a browser
+
+```mathematica
+<div id="balls"></div>
+<?wsp 
+    (* fully on WLJS Interpreter *)
+    
+    (
+        balls = RandomReal[{-1,1}, {50,2}];
+        FrontEndVirtual[{
+            AttachDOM["balls"],
+            Graphics[{
+                PointSize[0.07],
+                Table[{RGBColor[RandomReal[{0,1}, 3]], Point[balls[[i]]]}, {i, Length[balls]}],
+                White,
+                Opacity[0.1],
+                Line[balls]
+            }, ImageSize->{800,400}, "TransitionType"->"Linear"]
+        }];
+        
+
+        While[True,
+            balls = Table[
+                With[{orig = balls[[i]]},
+                    orig + 0.03 Normalize[{orig[[2]], -orig[[1]]}]
+                ]
+            , {i, Length[balls]}];  
+            Pause[0.1];      
+        ]
+
+    ) // Grow
+?>
+```
+
+![three pics](./ezgif.com-optimize-9.gif)
+
+## Dynamics & IO blocks
+Add sliders, textboxes and bind it to expressions executed WL Kernel. No Javasript coding required.
+
+For example let's create a widget that generates random words on a server
 ```php
-    <input id="webinput" type="textarea" value="Type something...">
-    <script>
-        const input = document.getElementById('webinput');
-        input.addEventListener('input', updateValue);
-        function updateValue(e) {
-             socket.send(`UpdateInput["${input.value}"]`);
-             console.log(`${input.value}`);
-        };
-        core.SetInput = function(args, env) {
-            input.value = interpretate(args[0]);
-        };
-    </script>
+<pre>
+    <?wsp TextView[randomWord// Hold] // Plant  ?>
+</pre>
+<p>Press a button to generate</p>
+
+<div style="text-align:center; display: inline-block">
+    <?wsp ButtonView["Event"->"GenerateWord"] // Plant ?>
+</div>
 ```
-On the Mathematica's side there is only one line
+
+and on a server's side one need onyl to attach to an event
 ```mathematica
-    UpdateInput[string_] := WebSocketBroadcast[server, SetInput[string], client]
+randomWord = "word"
+
+EventBind["GenerateWord", Function[d,
+    Print["Clicked!"];
+    randomWord = RandomWord[];
+]]
 ```
 
-# Usage
-Import the recent packages
-```mathematica
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"]
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"]
+# Examples
+Please see `Examples/static` folder
+```bash
+wolframscript -f Examples/static/start.wls
 ```
-Create a folder in your notebook (or script) directory *public* for instance
-```
---   yourproject.nb or yourscript.wls
---   public/
---   --   index.wsp
-```
-Then, put somehting in your *index.wsp*
-```php
-Hi! Your city is <?wsp CommonName /@ GeoNearest[Entity["City"], Here, 1] // First ?>
-```
-
-Run the command in the saved notebook to start the server locally
-```mathematica
-server = WEBServer["addr" -> "127.0.0.1:80",
-"path" -> NotebookDirectory[] <> "public", "socket-close" -> True]
-
-server // WEBServerStart
-```
-or inside the WolframScript
-```mathematica
-#!/usr/bin/env wolframscript
-
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/Tinyweb/Tinyweb.wl"];
-Import["https://raw.githubusercontent.com/JerryI/tinyweb-mathematica/master/WSP/WSP.wl"];
-
-server = WEBServer["addr" -> "127.0.0.1:80", "path" -> "public", "socket-close" -> True];
-server // WEBServerStart;
-```
-
-# Docs 
-The live version is /examples/demo/public
-
-https://jerryi.github.io/tinyweb-mathematica/

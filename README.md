@@ -1,8 +1,6 @@
-## The power of symbolic computation meets web 
-
 ![three pics](./logo.png)
 
-__Not stable__
+__!!! Not stable__
 *has issues on Windows machines*
 
 # Tiny HTTP webserver
@@ -15,6 +13,7 @@ __Not stable__
 
 ## Template Engine
 > *hypertext preprocessor built on top of Wolfram Kernel*
+
 Imagine PHP, but with Wolfram Language. Easy to use, feels like plain HTML
 ```
 <?wsp Now//TextString ?>
@@ -107,6 +106,7 @@ EventBind["GenerateWord", Function[d,
 
 # Examples
 Please see `Examples/static` folder
+
 ```bash
-wolframscript -f Examples/static/start.wls
+wolframscript -f examples/static/start.wls
 ```
